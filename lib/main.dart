@@ -1,7 +1,10 @@
+// main.dart
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:app_9news/src/configs/app_routes.dart';
+// --- PERBAIKAN DI SINI ---
 import 'package:app_9news/src/provider/auth_provider.dart';
 import 'package:app_9news/src/provider/news_provider.dart';
 

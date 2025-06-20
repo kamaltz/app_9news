@@ -7,23 +7,41 @@ import 'package:app_9news/src/controller/news_service.dart';
 class NewsProvider extends ChangeNotifier {
   final NewsService _newsService = NewsService();
 
-  bool _isLoading = false;
-  String? _errorMessage;
+  // State untuk Homepage
   List<NewsArticle> _trendingArticles = [];
   List<NewsArticle> _latestArticles = [];
+  bool _isHomepageLoading = false;
 
-  bool get isLoading => _isLoading;
-  String? get errorMessage => _errorMessage;
+  // State untuk Explore Page
+  List<NewsArticle> _searchedArticles = [];
+  bool _isSearchLoading = false;
+  String? _searchError;
+
+  // State untuk Bookmarks Page
+  List<NewsArticle> _bookmarkedArticles = [];
+  bool _isBookmarkLoading = false;
+
+  // State untuk User Articles
+  List<NewsArticle> _userArticles = [];
+  bool _isUserArticlesLoading = false;
+
+  // Getters
   List<NewsArticle> get trendingArticles => _trendingArticles;
   List<NewsArticle> get latestArticles => _latestArticles;
+  bool get isHomepageLoading => _isHomepageLoading;
+  List<NewsArticle> get searchedArticles => _searchedArticles;
+  bool get isSearchLoading => _isSearchLoading;
+  String? get searchError => _searchError;
+  List<NewsArticle> get bookmarkedArticles => _bookmarkedArticles;
+  bool get isBookmarkLoading => _isBookmarkLoading;
+  List<NewsArticle> get userArticles => _userArticles;
+  bool get isUserArticlesLoading => _isUserArticlesLoading;
 
+  // --- Homepage ---
   Future<void> fetchHomepageData() async {
-    _isLoading = true;
-    _errorMessage = null;
+    _isHomepageLoading = true;
     notifyListeners();
-
     try {
-      // Ambil data trending dan terbaru secara bersamaan
       final results = await Future.wait([
         _newsService.fetchTrendingNews(limit: 5),
         _newsService.fetchLatestNews(limit: 10),
@@ -31,33 +49,70 @@ class NewsProvider extends ChangeNotifier {
       _trendingArticles = results[0];
       _latestArticles = results[1];
     } catch (e) {
-      _errorMessage = e.toString();
+      // Handle error
     } finally {
-      _isLoading = false;
+      _isHomepageLoading = false;
       notifyListeners();
     }
   }
 
-  Future<void> searchArticles(String query) async {
-    if (query.isEmpty) {
-      fetchHomepageData(); // Jika query kosong, muat ulang data default
-      return;
-    }
-    _isLoading = true;
+  // --- Explore ---
+  Future<void> searchArticles({String? query, String? category}) async {
+    _isSearchLoading = true;
+    _searchError = null;
     notifyListeners();
     try {
-      // API Anda tidak memiliki endpoint pencarian langsung, jadi kita filter berdasarkan kategori
-      // Ini adalah contoh, idealnya API memiliki endpoint /search?q=query
-      final results = await _newsService.fetchLatestNews(
-        category: query,
-        limit: 20,
-      );
-      _latestArticles = results;
-      _trendingArticles = []; // Kosongkan trending saat mencari
+      _searchedArticles = await _newsService.fetchLatestNews(
+          query: query, category: category, limit: 20);
     } catch (e) {
-      _errorMessage = "Gagal mencari berita untuk: $query";
+      _searchError = e.toString();
     } finally {
-      _isLoading = false;
+      _isSearchLoading = false;
+      notifyListeners();
+    }
+  }
+
+  // --- Bookmarks ---
+  Future<void> fetchBookmarkedArticles() async {
+    _isBookmarkLoading = true;
+    notifyListeners();
+    try {
+      _bookmarkedArticles = await _newsService.getBookmarkedArticles();
+    } catch (e) {
+      // handle error
+    } finally {
+      _isBookmarkLoading = false;
+      notifyListeners();
+    }
+  }
+
+  Future<void> toggleBookmark(String articleId) async {
+    final isBookmarked =
+        _bookmarkedArticles.any((article) => article.id == articleId);
+    try {
+      if (isBookmarked) {
+        await _newsService.removeBookmark(articleId);
+        _bookmarkedArticles.removeWhere((article) => article.id == articleId);
+      } else {
+        await _newsService.addBookmark(articleId);
+        await fetchBookmarkedArticles();
+      }
+      notifyListeners();
+    } catch (e) {
+      // handle error
+    }
+  }
+
+  // --- User Articles ---
+  Future<void> fetchUserArticles() async {
+    _isUserArticlesLoading = true;
+    notifyListeners();
+    try {
+      _userArticles = await _newsService.getUserArticles();
+    } catch (e) {
+      // handle error
+    } finally {
+      _isUserArticlesLoading = false;
       notifyListeners();
     }
   }

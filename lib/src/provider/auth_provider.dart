@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:app_9news/src/controller/auth_service.dart';
 import 'package:app_9news/src/models/auth_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:convert'; // Impor untuk json a
 
 class AuthProvider extends ChangeNotifier {
   final AuthService _authService = AuthService();
@@ -14,14 +15,14 @@ class AuthProvider extends ChangeNotifier {
   String? _authToken;
   User? _user;
 
-  // Getters untuk diakses oleh UI
   bool get isLoading => _isLoading;
   String? get errorMessage => _errorMessage;
   bool get isLoggedIn => _isLoggedIn;
+  String? get authToken => _authToken;
   User? get user => _user;
 
   AuthProvider() {
-    _loadUserSession(); // Cek sesi login saat aplikasi dimulai
+    _loadUserSession();
   }
 
   void _setLoading(bool value) {
@@ -29,29 +30,40 @@ class AuthProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  // Menyimpan token dan data user ke SharedPreferences
   Future<void> _saveUserSession(String token, User user) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('auth_token', token);
+
+    // Simpan data user sebagai string JSON
+    final userJson = jsonEncode({
+      'id': user.id,
+      'email': user.email,
+      'name': user.name,
+      'title': user.title,
+      'avatar': user.avatar,
+    });
+    await prefs.setString('user_data', userJson);
+
     _authToken = token;
     _user = user;
     _isLoggedIn = true;
+    notifyListeners();
   }
 
-  // Memeriksa token dari SharedPreferences untuk menjaga user tetap login
   Future<void> _loadUserSession() async {
     final prefs = await SharedPreferences.getInstance();
     final token = prefs.getString('auth_token');
-    if (token != null && token.isNotEmpty) {
+    final userDataString = prefs.getString('user_data');
+
+    if (token != null && userDataString != null) {
       _authToken = token;
       _isLoggedIn = true;
-      // Di aplikasi nyata, Anda mungkin ingin memuat ulang data pengguna dari API di sini
-      // untuk memastikan data selalu terbaru.
+      // Muat kembali data user dari JSON
+      _user = User.fromJson(jsonDecode(userDataString));
       notifyListeners();
     }
   }
 
-  /// Fungsi untuk menangani proses login dari UI
   Future<void> login(String email, String password) async {
     _setLoading(true);
     _errorMessage = null;
@@ -66,7 +78,6 @@ class AuthProvider extends ChangeNotifier {
     }
   }
 
-  /// Fungsi untuk menangani proses registrasi dari UI
   Future<bool> register(Map<String, dynamic> userData) async {
     _setLoading(true);
     _errorMessage = null;
@@ -74,25 +85,24 @@ class AuthProvider extends ChangeNotifier {
     try {
       final authModel = await _authService.register(userData);
       await _saveUserSession(authModel.data.token, authModel.data.user);
-      return true; // Mengembalikan true jika registrasi dan penyimpanan sesi berhasil
+      return true;
     } catch (e) {
       _errorMessage = e.toString().replaceFirst("Exception: ", "");
-      return false; // Mengembalikan false jika gagal
+      return false;
     } finally {
       _setLoading(false);
     }
   }
 
-  /// Menghapus pesan error setelah ditampilkan
   void clearErrorMessage() {
     _errorMessage = null;
     notifyListeners();
   }
 
-  /// Fungsi untuk logout
   Future<void> logout() async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.remove('auth_token');
+    await prefs.remove('user_data'); // Hapus juga data user
     _isLoggedIn = false;
     _authToken = null;
     _user = null;

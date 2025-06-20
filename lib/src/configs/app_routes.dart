@@ -12,6 +12,7 @@ import 'package:app_9news/src/views/homepage.dart'; // Wrapper utama dengan Bott
 import 'package:app_9news/src/views/news/news_detail_page.dart';
 import 'package:app_9news/src/views/my_articles_screen.dart';
 import 'package:app_9news/src/views/create_edit_article_screen.dart';
+import 'package:app_9news/src/views/explore/explore_screen.dart';
 
 class AppRoutes {
   // --- Definisi Konstanta Rute ---
