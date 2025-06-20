@@ -11,7 +11,7 @@ class SplashScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.background,
+      backgroundColor: Theme.of(context).colorScheme.surface,
       body: SafeArea(
         child: Center(
           child: InkWell(
@@ -22,8 +22,8 @@ class SplashScreen extends StatelessWidget {
               mainAxisSize: MainAxisSize.max,
               children: [
                 const SizedBox(height: 150),
-                Image.asset(
-                  'assets/images/Logo.png',
+                Image.network(
+                  'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/news-app-mq22f9/assets/zkr1nait25m0/Logo.png',
                   height: 80,
                   fit: BoxFit.cover,
                 ),
@@ -48,7 +48,11 @@ class SplashScreen extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 50),
-                const LoadingBar(),
+                Image.network(
+                  'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/news-app-mq22f9/assets/4pt5hbqcnibz/Dual_Ring%401x-1.5s-200px-200px_(1).gif',
+                  height: 50,
+                  width: 50,
+                ),
               ],
             ),
           ),

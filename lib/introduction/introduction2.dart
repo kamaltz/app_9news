@@ -14,13 +14,13 @@ class Introduction2 extends StatelessWidget {
     final isMobile = MediaQuery.of(context).size.width < 600;
 
     return Scaffold(
-      backgroundColor: theme.colorScheme.background,
+      backgroundColor: theme.colorScheme.surface,
       body: SafeArea(
         child: Column(
           children: [
             const SizedBox(height: 90),
-            Image.asset(
-              'assets/images/introduction2.png',
+            Image.network(
+              'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/news-app-mq22f9/assets/4awnqdgpe17m/introduction2.png',
               width: 323.8,
               height: 302.27,
               fit: BoxFit.cover,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../auth/loginpage/login_page.dart';
+import '../views/auth/login_screen.dart';
+import 'package:flutter/routeName.dart';
 
 class Introduction3 extends StatelessWidget {
   const Introduction3({super.key});
@@ -24,11 +25,7 @@ class Introduction3 extends StatelessWidget {
       child: Row(
         children: [
           const SizedBox(width: 20),
-          Icon(
-            icon,
-            color: Theme.of(context).primaryColor,
-            size: 28,
-          ),
+          Icon(icon, color: Theme.of(context).primaryColor, size: 28),
           const SizedBox(width: 20),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -36,14 +33,9 @@ class Introduction3 extends StatelessWidget {
             children: [
               Text(
                 title,
-                style: GoogleFonts.inter(
-                  fontWeight: FontWeight.bold,
-                ),
+                style: GoogleFonts.inter(fontWeight: FontWeight.bold),
               ),
-              Text(
-                description,
-                style: GoogleFonts.inter(),
-              ),
+              Text(description, style: GoogleFonts.inter()),
             ],
           ),
         ],
@@ -54,7 +46,7 @@ class Introduction3 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.background,
+      backgroundColor: Theme.of(context).colorScheme.surface,
       body: SafeArea(
         child: GestureDetector(
           onTap: () => FocusScope.of(context).unfocus(),
@@ -66,8 +58,8 @@ class Introduction3 extends StatelessWidget {
                   padding: const EdgeInsets.only(left: 30),
                   child: Row(
                     children: [
-                      Image.asset(
-                        'assets/images/Logo.png',
+                      Image.network(
+                        'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/news-app-mq22f9/assets/zkr1nait25m0/Logo.png',
                         width: 120,
                         height: 30,
                         fit: BoxFit.cover,
@@ -76,8 +68,8 @@ class Introduction3 extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 40),
-                Image.asset(
-                  'assets/images/introduction3.png',
+                Image.network(
+                  'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/news-app-mq22f9/assets/doy7c0x3ylpr/introduction3.png',
                   width: 200,
                   height: 200,
                   fit: BoxFit.cover,
@@ -104,21 +96,24 @@ class Introduction3 extends StatelessWidget {
                   context: context,
                   icon: Icons.flash_on_outlined,
                   title: 'Berita Real Time',
-                  description: 'Tetap update dengan notifikasi\nberita terkini secara instan.',
+                  description:
+                      'Tetap update dengan notifikasi\nberita terkini secara instan.',
                 ),
                 const SizedBox(height: 15),
                 _featureCard(
                   context: context,
                   icon: Icons.star,
                   title: 'Personalized Feed',
-                  description: 'Cerita yang disesuaikan\n berdasarkan minat Anda.',
+                  description:
+                      'Cerita yang disesuaikan\n berdasarkan minat Anda.',
                 ),
                 const SizedBox(height: 15),
                 _featureCard(
                   context: context,
                   icon: Icons.sort_by_alpha,
                   title: 'Cakupan Global',
-                  description: 'Akses berita dari sumber\ntepercaya di seluruh dunia.',
+                  description:
+                      'Akses berita dari sumber\ntepercaya di seluruh dunia.',
                 ),
                 const SizedBox(height: 20),
                 SizedBox(
@@ -126,18 +121,17 @@ class Introduction3 extends StatelessWidget {
                   height: 40,
                   child: ElevatedButton(
                     onPressed: () {
-                      Navigator.pushNamed(context, LoginPage.routeName);
+                      Navigator.pushNamed(context, LoginScreen().routeName);
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Theme.of(context).primaryColor,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
+                      ),
                     ),
                     child: Text(
                       'Buka Segera',
-                      style: GoogleFonts.interTight(
-                        color: Colors.white,
-                      ),
+                      style: GoogleFonts.interTight(color: Colors.white),
                     ),
                   ),
                 ),
