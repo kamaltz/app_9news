@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:app_9news/src/models/news_model.dart';
 import 'package:app_9news/src/provider/news_provider.dart';
-import 'package:app_9news/src/views/homepage.dart'; // Impor untuk menggunakan LatestNewsCard
+import 'package:app_9news/src/widgets/news_cards.dart'; // <-- PERBAIKI IMPOR INI
 
 class AuthorDetailScreen extends StatefulWidget {
   final Author author;
@@ -18,8 +18,7 @@ class _AuthorDetailScreenState extends State<AuthorDetailScreen> {
   @override
   void initState() {
     super.initState();
-    // Panggil metode publik dari provider untuk mengambil artikel berdasarkan nama penulis
-    // API akan memfilter berdasarkan `title` (query), yang kita gunakan untuk nama penulis
+    // Panggil metode publik dari provider
     _fetchArticlesFuture = Provider.of<NewsProvider>(context, listen: false)
         .fetchExploreArticles(query: widget.author.name);
   }
@@ -28,46 +27,44 @@ class _AuthorDetailScreenState extends State<AuthorDetailScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Profil Penulis"),
+        title: Text("Profil Penulis"),
       ),
       body: ListView(
         children: [
           _buildProfileHeader(context, widget.author),
-          const Divider(thickness: 8, height: 24),
+          const Divider(height: 32),
           Padding(
-            padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 8.0),
+            padding: const EdgeInsets.all(16.0),
             child: Text(
               "Artikel oleh ${widget.author.name}",
-              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
           ),
-          // --- PERBAIKAN: Tampilkan Card Artikel ---
           FutureBuilder(
             future: _fetchArticlesFuture,
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(child: CircularProgressIndicator());
+                return Center(child: CircularProgressIndicator());
               }
               return Consumer<NewsProvider>(
                 builder: (context, provider, child) {
                   if (provider.isExploreLoading &&
                       provider.exploreArticles.isEmpty) {
-                    return const Center(child: CircularProgressIndicator());
+                    return Center(child: CircularProgressIndicator());
                   }
                   if (provider.exploreArticles.isEmpty) {
-                    return const Center(
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(vertical: 40.0),
-                        child: Text("Penulis ini belum memiliki artikel."),
-                      ),
-                    );
+                    return Center(
+                        child: Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: Text("Penulis ini belum memiliki artikel."),
+                    ));
                   }
-                  // Tampilkan daftar artikel penulis menggunakan LatestNewsCard
                   return ListView.builder(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
+                    physics: NeverScrollableScrollPhysics(),
                     itemCount: provider.exploreArticles.length,
+                    // Pemanggilan LatestNewsCard sekarang sudah benar
                     itemBuilder: (context, index) => LatestNewsCard(
                         article: provider.exploreArticles[index]),
                   );
@@ -88,14 +85,11 @@ class _AuthorDetailScreenState extends State<AuthorDetailScreen> {
           CircleAvatar(
             radius: 50,
             backgroundImage: NetworkImage(author.avatar),
-            onBackgroundImageError: (exception, stackTrace) {
-              // Handle error gambar jika perlu
-            },
+            onBackgroundImageError: (exception, stackTrace) {},
           ),
           const SizedBox(height: 16),
           Text(author.name,
-              style:
-                  const TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
           const SizedBox(height: 4),
           Text(author.title,
               style: TextStyle(fontSize: 16, color: Colors.grey[600])),

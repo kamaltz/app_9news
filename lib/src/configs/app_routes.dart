@@ -1,9 +1,11 @@
+// lib/src/configs/app_routes.dart
+
 import 'package:flutter/material.dart';
 import 'package:app_9news/src/models/news_model.dart';
 import 'package:app_9news/src/views/auth/auth_screen.dart';
 import 'package:app_9news/src/views/author/author_detail_screen.dart';
 import 'package:app_9news/src/views/create_edit_article_screen.dart';
-import 'package:app_9news/src/views/homepage.dart';
+import 'package:app_9news/src/views/main_wrapper.dart'; // <-- Perbaiki impor ini
 import 'package:app_9news/src/views/news/news_detail_page.dart';
 import 'package:app_9news/src/views/onboarding/introduction1.dart';
 import 'package:app_9news/src/views/onboarding/introduction2.dart';
@@ -20,10 +22,9 @@ class AppRoutes {
   static const String home = '/home';
   static const String newsDetail = '/news-detail';
   static const String authorDetail = '/author-detail';
-  static const String createArticle = '/create-article'; // Rute untuk buat/edit
+  static const String createArticle = '/create-article';
 
   // --- Fungsi untuk Menghasilkan Rute (onGenerateRoute) ---
-  // Pastikan fungsi ini berada DI DALAM kelas AppRoutes
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case splash:
@@ -55,7 +56,6 @@ class AppRoutes {
         }
         return _errorRoute();
       case createArticle:
-        // Halaman ini menangani 'create' (article is null) dan 'edit' (article is not null)
         final article = settings.arguments as NewsArticle?;
         return MaterialPageRoute(
           builder: (_) => CreateEditArticleScreen(article: article),
@@ -65,7 +65,6 @@ class AppRoutes {
     }
   }
 
-  // Fungsi helper untuk rute error
   static Route<dynamic> _errorRoute() {
     return MaterialPageRoute(
       builder: (_) => Scaffold(
