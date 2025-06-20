@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:news_app/src/configs/app_routes.dart';
+import 'package:inggitbela/src/configs/app_routes.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthGuard {

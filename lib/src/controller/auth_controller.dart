@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:news_app/src/models/auth_model.dart';
+import 'package:inggitbela/src/models/auth_model.dart';
 
 class AuthService {
   static const String _baseUrl = 'https://rest-api-berita.vercel.app/api/v1';

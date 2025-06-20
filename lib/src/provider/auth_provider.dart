@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:news_app/src/controller/auth_controller.dart';
-import 'package:news_app/src/models/auth_model.dart';
+import 'package:inggitbela/src/controller/auth_controller.dart';
+import 'package:inggitbela/src/models/auth_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthProvider extends ChangeNotifier {
