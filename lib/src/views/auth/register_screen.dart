@@ -4,11 +4,6 @@ import 'package:provider/provider.dart';
 import 'package:app_9news/src/provider/auth_provider.dart';
 import 'package:app_9news/src/configs/app_routes.dart';
 
-// Asumsi Anda memiliki file-file ini di lib/flutter_flow/
-import 'package:app_9news/flutter_flow/flutter_flow_theme.dart';
-import 'package:app_9news/flutter_flow/flutter_flow_widgets.dart';
-import 'package:app_9news/flutter_flow/flutter_flow_util.dart';
-
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
 

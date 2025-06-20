@@ -1,11 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:app_9news/src/views/auth/login_screen.dart'; // Pastikan jalur impor ini sudah benar
-// Asumsi Anda memiliki impor lain yang relevan seperti dari flutter_flow
-// import 'package:app_9news/flutter_flow/flutter_flow_theme.dart';
-// import 'package:app_9news/flutter_flow/flutter_flow_util.dart';
-// import 'package:app_9news/flutter_flow/flutter_flow_widgets.dart';
-// import 'package:app_9news/src/configs/app_routes.dart'; // Jika menggunakan AppRoutes
+import 'package:app_9news/src/views/auth/login_screen.dart';
 
 class Introduction3 extends StatelessWidget {
   const Introduction3({super.key});
