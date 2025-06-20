@@ -1,7 +1,5 @@
-// lib/src/models/news_model.dart
 import 'dart:convert';
 
-// (Kode model yang sudah ada, tidak perlu diubah)
 NewsResponse newsResponseFromJson(String str) =>
     NewsResponse.fromJson(json.decode(str));
 

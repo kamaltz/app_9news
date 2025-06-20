@@ -1,42 +1,53 @@
+// lib/src/controller/auth_service.dart
+
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:app_9news/src/models/auth_model.dart'; // Pastikan AuthModel Anda memiliki UserData dan User
+import 'package:app_9news/src/models/auth_model.dart'; // Pastikan path impor ini benar
 
-// Ubah nama kelas kembali menjadi AuthService
 class AuthService {
+  // Base URL dari dokumentasi API Anda
   static const String _baseUrl = 'https://rest-api-berita.vercel.app/api/v1';
 
-  // Metode login, sekarang mengembalikan AuthModel yang berisi data atau melempar Exception
+  /// Fungsi untuk login pengguna
   Future<AuthModel> login(String email, String password) async {
+    // Endpoint sesuai dokumentasi: /auth/login
     final response = await http.post(
       Uri.parse('$_baseUrl/auth/login'),
       headers: {'Content-Type': 'application/json'},
+      // Body request sesuai dokumentasi: { "email": "...", "password": "..." }
       body: jsonEncode({'email': email, 'password': password}),
     );
 
-    if (response.statusCode == 200) {
-      return AuthModel.fromJson(jsonDecode(response.body));
+    final responseBody = jsonDecode(response.body);
+
+    // Menurut dokumentasi, respons sukses memiliki status code 200
+    if (response.statusCode == 200 && responseBody['success'] == true) {
+      return AuthModel.fromJson(responseBody);
     } else {
-      // Melemparkan Exception agar AuthProvider bisa menangkap dan menampilkan error
-      throw Exception(jsonDecode(response.body)['message'] ?? 'Gagal login');
+      // Jika gagal, lemparkan pesan error dari API
+      throw Exception(responseBody['message'] ?? 'Gagal login');
     }
   }
 
-  // Metode register, sekarang mengembalikan AuthModel yang berisi data atau melempar Exception
+  /// Fungsi untuk registrasi pengguna baru
   Future<AuthModel> register(Map<String, dynamic> userData) async {
+    // Endpoint sesuai dokumentasi: /auth/register
     final response = await http.post(
       Uri.parse('$_baseUrl/auth/register'),
       headers: {'Content-Type': 'application/json'},
+      // Body request sesuai dokumentasi: { "email", "password", "name", "title", "avatar" }
+      // userData sudah berisi map dengan semua field yang dibutuhkan.
       body: jsonEncode(userData),
     );
 
-    if (response.statusCode == 201) {
-      return AuthModel.fromJson(jsonDecode(response.body));
+    final responseBody = jsonDecode(response.body);
+
+    // Menurut dokumentasi dan standar REST API, registrasi sukses mengembalikan status code 201 (Created)
+    if (response.statusCode == 201 && responseBody['success'] == true) {
+      return AuthModel.fromJson(responseBody);
     } else {
-      // Melemparkan Exception agar AuthProvider bisa menangkap dan menampilkan error
-      throw Exception(
-        jsonDecode(response.body)['message'] ?? 'Gagal registrasi',
-      );
+      // Jika gagal, lemparkan pesan error dari API
+      throw Exception(responseBody['message'] ?? 'Gagal registrasi');
     }
   }
 }

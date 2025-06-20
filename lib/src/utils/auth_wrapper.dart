@@ -12,13 +12,14 @@ class AuthWrapper extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<AuthProvider>(
       builder: (context, authProvider, _) {
-        if (!authProvider.isAuthenticated) {
+        // PERBAIKAN: Ganti 'isAuthenticated' dengan 'isLoggedIn'
+        if (!authProvider.isLoggedIn) {
           WidgetsBinding.instance.addPostFrameCallback((_) {
             Navigator.pushReplacementNamed(context, AppRoutes.login);
           });
-          return Container();
+          return Container(); // Mengembalikan kontainer kosong saat navigasi
         }
-        return child;
+        return child; // Mengembalikan child jika sudah login
       },
     );
   }

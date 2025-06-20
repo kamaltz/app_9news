@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class NewsDetailPage extends StatefulWidget {
-  const NewsDetailPage({Key? key}) : super(key: key);
+  const NewsDetailPage({super.key});
 
   @override
   State<NewsDetailPage> createState() => _NewsDetailPageState();
@@ -21,7 +21,9 @@ class _NewsDetailPageState extends State<NewsDetailPage> {
               width: double.infinity,
               decoration: BoxDecoration(
                 image: DecorationImage(
-                  image: NetworkImage('https://via.placeholder.com/400x250.png?text=MotoGP+News'),
+                  image: NetworkImage(
+                    'https://via.placeholder.com/400x250.png?text=MotoGP+News',
+                  ),
                   fit: BoxFit.cover,
                 ),
               ),
@@ -34,8 +36,10 @@ class _NewsDetailPageState extends State<NewsDetailPage> {
                         begin: Alignment.topCenter,
                         end: Alignment.bottomCenter,
                         colors: [
-                          Colors.black.withOpacity(0.3),
-                          Colors.black.withOpacity(0.7),
+                          // Mengganti Colors.black.withOpacity(0.3) dengan Color heksadesimal
+                          const Color(0x4C000000), // Alpha 0x4C (~30% opacity)
+                          // Mengganti Colors.black.withOpacity(0.7) dengan Color heksadesimal
+                          const Color(0xB3000000), // Alpha 0xB3 (~70% opacity)
                         ],
                       ),
                     ),
@@ -47,12 +51,15 @@ class _NewsDetailPageState extends State<NewsDetailPage> {
                     child: GestureDetector(
                       onTap: () => Navigator.pop(context),
                       child: Container(
-                        padding: EdgeInsets.all(8),
+                        padding: const EdgeInsets.all(8),
                         decoration: BoxDecoration(
-                          color: Colors.black.withOpacity(0.5),
+                          // Mengganti Colors.black.withOpacity(0.5) dengan Color heksadesimal
+                          color: const Color(
+                            0x80000000,
+                          ), // Alpha 0x80 (~50% opacity)
                           shape: BoxShape.circle,
                         ),
-                        child: Icon(
+                        child: const Icon(
                           Icons.arrow_back,
                           color: Colors.white,
                           size: 20,
@@ -60,29 +67,35 @@ class _NewsDetailPageState extends State<NewsDetailPage> {
                       ),
                     ),
                   ),
-                  // Tombol bookmark 
+                  // Tombol bookmark
                   Positioned(
                     top: 16,
                     right: 16,
                     child: Row(
                       children: [
                         Container(
-                          padding: EdgeInsets.all(8),
+                          padding: const EdgeInsets.all(8),
                           decoration: BoxDecoration(
-                            color: Colors.black.withOpacity(0.5),
+                            // Mengganti Colors.black.withOpacity(0.5) dengan Color heksadesimal
+                            color: const Color(
+                              0x80000000,
+                            ), // Alpha 0x80 (~50% opacity)
                             shape: BoxShape.circle,
                           ),
-                          child: Icon(
+                          child: const Icon(
                             Icons.bookmark_border,
                             color: Colors.white,
                             size: 20,
                           ),
                         ),
-                        SizedBox(width: 8),
+                        const SizedBox(width: 8),
                         Container(
-                          padding: EdgeInsets.all(8),
+                          padding: const EdgeInsets.all(8),
                           decoration: BoxDecoration(
-                            color: Colors.black.withOpacity(0.5),
+                            // Mengganti Colors.black.withOpacity(0.5) dengan Color heksadesimal
+                            color: const Color(
+                              0x80000000,
+                            ), // Alpha 0x80 (~50% opacity)
                             shape: BoxShape.circle,
                           ),
                         ),
@@ -94,12 +107,15 @@ class _NewsDetailPageState extends State<NewsDetailPage> {
                     bottom: 80,
                     left: 16,
                     child: Container(
-                      padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 12,
+                        vertical: 6,
+                      ),
                       decoration: BoxDecoration(
                         color: Colors.blue,
                         borderRadius: BorderRadius.circular(16),
                       ),
-                      child: Text(
+                      child: const Text(
                         'MotoGP',
                         style: TextStyle(
                           color: Colors.white,
@@ -114,7 +130,7 @@ class _NewsDetailPageState extends State<NewsDetailPage> {
                     bottom: 16,
                     left: 16,
                     right: 16,
-                    child: Text(
+                    child: const Text(
                       'Pecco Bagnaia Berhasil Pertahankan Gelar Juara Dunia MotoGP 2023',
                       style: TextStyle(
                         color: Colors.white,
@@ -127,31 +143,29 @@ class _NewsDetailPageState extends State<NewsDetailPage> {
                 ],
               ),
             ),
-            
+
             // Konten artikel yang bisa di-scroll
             Expanded(
               child: Container(
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   color: Colors.white,
-                  borderRadius: BorderRadius.vertical(
-                    top: Radius.circular(20),
-                  ),
+                  borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
                 ),
                 child: SingleChildScrollView(
-                  padding: EdgeInsets.all(20),
+                  padding: const EdgeInsets.all(20),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       // Info trending dan waktu
                       Row(
                         children: [
-                          Icon(
+                          const Icon(
                             Icons.trending_up,
                             color: Colors.red,
                             size: 16,
                           ),
-                          SizedBox(width: 4),
-                          Text(
+                          const SizedBox(width: 4),
+                          const Text(
                             'Trending',
                             style: TextStyle(
                               color: Colors.red,
@@ -159,37 +173,25 @@ class _NewsDetailPageState extends State<NewsDetailPage> {
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          SizedBox(width: 8),
-                          Text(
-                            '•',
-                            style: TextStyle(color: Colors.grey),
-                          ),
-                          SizedBox(width: 8),
-                          Text(
+                          const SizedBox(width: 8),
+                          const Text('•', style: TextStyle(color: Colors.grey)),
+                          const SizedBox(width: 8),
+                          const Text(
                             '27 Nov 2023',
-                            style: TextStyle(
-                              color: Colors.grey,
-                              fontSize: 12,
-                            ),
+                            style: TextStyle(color: Colors.grey, fontSize: 12),
                           ),
-                          SizedBox(width: 8),
-                          Text(
-                            '•',
-                            style: TextStyle(color: Colors.grey),
-                          ),
-                          SizedBox(width: 8),
-                          Text(
+                          const SizedBox(width: 8),
+                          const Text('•', style: TextStyle(color: Colors.grey)),
+                          const SizedBox(width: 8),
+                          const Text(
                             '6 menit baca',
-                            style: TextStyle(
-                              color: Colors.grey,
-                              fontSize: 12,
-                            ),
+                            style: TextStyle(color: Colors.grey, fontSize: 12),
                           ),
                         ],
                       ),
-                      
-                      SizedBox(height: 20),
-                      
+
+                      const SizedBox(height: 20),
+
                       // Info penulis
                       Row(
                         children: [
@@ -199,19 +201,19 @@ class _NewsDetailPageState extends State<NewsDetailPage> {
                               'https://via.placeholder.com/40x40.png?text=BS',
                             ),
                           ),
-                          SizedBox(width: 12),
+                          const SizedBox(width: 12),
                           Expanded(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(
+                                const Text(
                                   'Budi Santoso',
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 14,
                                   ),
                                 ),
-                                Text(
+                                const Text(
                                   'Jurnalis Olahraga',
                                   style: TextStyle(
                                     color: Colors.grey,
@@ -222,12 +224,15 @@ class _NewsDetailPageState extends State<NewsDetailPage> {
                             ),
                           ),
                           Container(
-                            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 16,
+                              vertical: 8,
+                            ),
                             decoration: BoxDecoration(
                               color: Colors.blue,
                               borderRadius: BorderRadius.circular(20),
                             ),
-                            child: Text(
+                            child: const Text(
                               'Ikuti',
                               style: TextStyle(
                                 color: Colors.white,
@@ -238,24 +243,24 @@ class _NewsDetailPageState extends State<NewsDetailPage> {
                           ),
                         ],
                       ),
-                      
-                      SizedBox(height: 20),
-                      
+
+                      const SizedBox(height: 20),
+
                       // Tags kategori
                       Row(
                         children: [
                           _buildTag('MotoGP'),
-                          SizedBox(width: 8),
+                          const SizedBox(width: 8),
                           _buildTag('Bagnaia'),
-                          SizedBox(width: 8),
+                          const SizedBox(width: 8),
                           _buildTag('Ducati'),
                         ],
                       ),
-                      
-                      SizedBox(height: 20),
-                      
+
+                      const SizedBox(height: 20),
+
                       // Konten artikel
-                      Text(
+                      const Text(
                         'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
                         style: TextStyle(
                           fontSize: 16,
@@ -263,10 +268,10 @@ class _NewsDetailPageState extends State<NewsDetailPage> {
                           color: Colors.black87,
                         ),
                       ),
-                      
-                      SizedBox(height: 16),
-                      
-                      Text(
+
+                      const SizedBox(height: 16),
+
+                      const Text(
                         'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
                         style: TextStyle(
                           fontSize: 16,
@@ -274,10 +279,10 @@ class _NewsDetailPageState extends State<NewsDetailPage> {
                           color: Colors.black87,
                         ),
                       ),
-                      
-                      SizedBox(height: 16),
-                      
-                      Text(
+
+                      const SizedBox(height: 16),
+
+                      const Text(
                         'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.',
                         style: TextStyle(
                           fontSize: 16,
@@ -285,10 +290,10 @@ class _NewsDetailPageState extends State<NewsDetailPage> {
                           color: Colors.black87,
                         ),
                       ),
-                      
-                      SizedBox(height: 16),
-                      
-                      Text(
+
+                      const SizedBox(height: 16),
+
+                      const Text(
                         'Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit.',
                         style: TextStyle(
                           fontSize: 16,
@@ -296,10 +301,10 @@ class _NewsDetailPageState extends State<NewsDetailPage> {
                           color: Colors.black87,
                         ),
                       ),
-                      
-                      SizedBox(height: 16),
-                      
-                      Text(
+
+                      const SizedBox(height: 16),
+
+                      const Text(
                         'At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi.',
                         style: TextStyle(
                           fontSize: 16,
@@ -307,10 +312,10 @@ class _NewsDetailPageState extends State<NewsDetailPage> {
                           color: Colors.black87,
                         ),
                       ),
-                      
-                      SizedBox(height: 16),
-                      
-                      Text(
+
+                      const SizedBox(height: 16),
+
+                      const Text(
                         'Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat.',
                         style: TextStyle(
                           fontSize: 16,
@@ -318,8 +323,8 @@ class _NewsDetailPageState extends State<NewsDetailPage> {
                           color: Colors.black87,
                         ),
                       ),
-                      
-                      SizedBox(height: 30),
+
+                      const SizedBox(height: 30),
                     ],
                   ),
                 ),
@@ -330,20 +335,17 @@ class _NewsDetailPageState extends State<NewsDetailPage> {
       ),
     );
   }
-  
+
   Widget _buildTag(String text) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       decoration: BoxDecoration(
         color: Colors.grey[200],
         borderRadius: BorderRadius.circular(16),
       ),
       child: Text(
         text,
-        style: TextStyle(
-          fontSize: 12,
-          color: Colors.grey[700],
-        ),
+        style: TextStyle(fontSize: 12, color: Colors.grey[700]),
       ),
     );
   }
