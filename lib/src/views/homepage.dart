@@ -56,6 +56,23 @@ class _MainWrapperState extends State<MainWrapper> {
         title: Image.asset('assets/images/Logo.png',
             height: 40, fit: BoxFit.contain),
         centerTitle: false,
+        actions: [
+          // --- PERBAIKAN 1: Tombol Refresh ---
+          if (_selectedIndex == 0) // Hanya tampilkan di tab Beranda
+            IconButton(
+              icon: const Icon(Icons.refresh, color: Colors.black54),
+              onPressed: () {
+                Provider.of<NewsProvider>(context, listen: false)
+                    .fetchHomepageData();
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                      content: Text("Memperbarui berita..."),
+                      duration: Duration(seconds: 1)),
+                );
+              },
+              tooltip: 'Perbarui Berita',
+            ),
+        ],
       ),
       body: IndexedStack(
         index: _selectedIndex,
@@ -125,14 +142,27 @@ class _HomepageState extends State<Homepage> {
                 if (provider.trendingArticles.isNotEmpty)
                   _buildTrendingCarousel(context, provider.trendingArticles),
                 const SizedBox(height: 24),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: _buildSectionHeader('Berita Terbaru', () {
-                    mainWrapperKey.currentState?.goToTab(1);
-                  }),
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16.0),
+                  child: Text("Berita Terbaru",
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
                 ),
                 const SizedBox(height: 16),
                 _buildLatestNewsList(provider.latestArticles),
+
+                // --- PERBAIKAN 2: Tombol Lihat Semua di paling bawah ---
+                if (provider.latestArticles.isNotEmpty)
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 16.0, vertical: 24.0),
+                    child: OutlinedButton(
+                      onPressed: () => mainWrapperKey.currentState?.goToTab(1),
+                      child: const Text("Lihat Semua Berita"),
+                      style: OutlinedButton.styleFrom(
+                          minimumSize: const Size(double.infinity, 45)),
+                    ),
+                  )
               ],
             ),
           );
@@ -141,8 +171,6 @@ class _HomepageState extends State<Homepage> {
     );
   }
 }
-
-// --- WIDGET HELPER DI LUAR KELAS ---
 
 Widget _buildSearchField(BuildContext context) {
   return Padding(
@@ -168,16 +196,13 @@ Widget _buildSearchField(BuildContext context) {
 
 Widget _buildTrendingCarousel(
     BuildContext context, List<NewsArticle> articles) {
-  final newsProvider = Provider.of<NewsProvider>(context, listen: false);
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
-      Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-        child: _buildSectionHeader('Trending', () {
-          mainWrapperKey.currentState?.goToTab(1);
-          newsProvider.selectCategory("Trending");
-        }),
+      const Padding(
+        padding: EdgeInsets.symmetric(horizontal: 16.0),
+        child: Text("Trending",
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
       ),
       const SizedBox(height: 16),
       CarouselSlider.builder(
@@ -194,29 +219,18 @@ Widget _buildTrendingCarousel(
   );
 }
 
-Widget _buildSectionHeader(String title, VoidCallback onViewAll) => Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(title,
-            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-        TextButton(onPressed: onViewAll, child: const Text('Lihat Semua')),
-      ],
-    );
-
 Widget _buildLatestNewsList(List<NewsArticle> articles) => ListView.builder(
-      itemCount: articles.length > 10 ? 10 : articles.length,
+      itemCount: articles.length, // Tampilkan semua berita yang di-fetch
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       itemBuilder: (context, index) => LatestNewsCard(article: articles[index]),
     );
 
-// --- WIDGET CARD YANG BISA DIGUNAKAN KEMBALI ---
-
+// --- WIDGET CARD --- (Tidak ada perubahan di sini)
 class TrendingNewsCard extends StatelessWidget {
   final NewsArticle article;
   const TrendingNewsCard({super.key, required this.article});
-
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -226,15 +240,13 @@ class TrendingNewsCard extends StatelessWidget {
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(16),
-            child: Image.network(
-              article.imageUrl,
-              height: 220,
-              width: double.infinity,
-              fit: BoxFit.cover,
-              errorBuilder: (context, error, stackTrace) => Container(
-                  color: Colors.grey[300],
-                  child: const Icon(Icons.broken_image)),
-            ),
+            child: Image.network(article.imageUrl,
+                height: 220,
+                width: double.infinity,
+                fit: BoxFit.cover,
+                errorBuilder: (c, e, s) => Container(
+                    color: Colors.grey[300],
+                    child: const Icon(Icons.broken_image))),
           ),
           Container(
             decoration: BoxDecoration(
@@ -275,7 +287,6 @@ class TrendingNewsCard extends StatelessWidget {
 class LatestNewsCard extends StatelessWidget {
   final NewsArticle article;
   const LatestNewsCard({super.key, required this.article});
-
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -290,17 +301,15 @@ class LatestNewsCard extends StatelessWidget {
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(12),
-              child: Image.network(
-                article.imageUrl,
-                width: 90,
-                height: 90,
-                fit: BoxFit.cover,
-                errorBuilder: (context, error, stackTrace) => Container(
-                    width: 90,
-                    height: 90,
-                    color: Colors.grey[200],
-                    child: const Icon(Icons.broken_image)),
-              ),
+              child: Image.network(article.imageUrl,
+                  width: 90,
+                  height: 90,
+                  fit: BoxFit.cover,
+                  errorBuilder: (c, e, s) => Container(
+                      width: 90,
+                      height: 90,
+                      color: Colors.grey[200],
+                      child: const Icon(Icons.broken_image))),
             ),
             const SizedBox(width: 12),
             Expanded(
