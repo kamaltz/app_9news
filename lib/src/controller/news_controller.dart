@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:inggitbela/src/models/news_model.dart';
+import 'package:app_9news/src/models/news_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class NewsService {

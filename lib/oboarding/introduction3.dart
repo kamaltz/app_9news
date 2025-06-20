@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../views/auth/login_screen.dart';
-import 'package:flutter/routeName.dart';
+import 'package:app_9news/src/views/auth/login_screen.dart'; // Pastikan jalur impor ini sudah benar
+// Asumsi Anda memiliki impor lain yang relevan seperti dari flutter_flow
+// import 'package:app_9news/flutter_flow/flutter_flow_theme.dart';
+// import 'package:app_9news/flutter_flow/flutter_flow_util.dart';
+// import 'package:app_9news/flutter_flow/flutter_flow_widgets.dart';
+// import 'package:app_9news/src/configs/app_routes.dart'; // Jika menggunakan AppRoutes
 
 class Introduction3 extends StatelessWidget {
   const Introduction3({super.key});
@@ -121,7 +125,8 @@ class Introduction3 extends StatelessWidget {
                   height: 40,
                   child: ElevatedButton(
                     onPressed: () {
-                      Navigator.pushNamed(context, LoginScreen().routeName);
+                      // PERBAIKAN DI SINI: Akses routeName secara statis melalui kelas
+                      Navigator.pushNamed(context, LoginScreen.routeName);
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Theme.of(context).primaryColor,
