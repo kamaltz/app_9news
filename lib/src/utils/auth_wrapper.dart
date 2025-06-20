@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:inggitbela/src/configs/app_routes.dart';
-import 'package:inggitbela/src/provider/auth_provider.dart';
+import 'package:app_9news/src/configs/app_routes.dart';
+import 'package:app_9news/src/provider/auth_provider.dart';
 import 'package:provider/provider.dart';
 
 class AuthWrapper extends StatelessWidget {

@@ -1,11 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart'; // Pastikan package ini ada di pubspec.yaml
-import 'package:app_9news/src/provider/auth_provider.dart'; // Diperbaiki jalur impor
-import 'package:app_9news/src/configs/app_routes.dart'; // Diperbaiki jalur impor
+import 'package:provider/provider.dart';
+import 'package:app_9news/src/provider/auth_provider.dart';
+import 'package:app_9news/src/configs/app_routes.dart';
+
+// Asumsi Anda memiliki file-file ini di lib/flutter_flow/
+import 'package:app_9news/flutter_flow/flutter_flow_theme.dart';
+import 'package:app_9news/flutter_flow/flutter_flow_widgets.dart';
+import 'package:app_9news/flutter_flow/flutter_flow_util.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
+
+  // Tambahkan definisi static routeName dan routePath di sini
+  static String routeName =
+      AppRoutes.register; // Menggunakan rute dari AppRoutes
+  static String routePath = '/register'; // Sesuaikan dengan AppRoutes.register
 
   @override
   State<RegisterScreen> createState() => _RegisterScreenState();
@@ -45,11 +55,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
         'name': _nameController.text,
         'email': _emailController.text,
         'password': _passwordController.text,
-        'title': '', // Asumsi title opsional atau default kosong
-        'avatar': '', // Asumsi avatar opsional atau default kosong
+        'title': '',
+        'avatar': '',
       });
 
-      // Pastikan widget masih mounted sebelum menggunakan BuildContext setelah async gap
       if (!mounted) return;
 
       if (success) {
@@ -59,11 +68,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
             backgroundColor: Colors.green,
           ),
         );
-        context.pushNamed(AppRoutes.login); // Menggunakan context.pushNamed
+        context.pushNamed(AppRoutes.login);
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
-            // Menggunakan const untuk SnackBar agar lebih efisien
             content: Text('Pendaftaran gagal. Coba lagi.'),
             backgroundColor: Colors.red,
           ),
@@ -77,17 +85,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
     final authProvider = context.watch<AuthProvider>();
 
     return Scaffold(
-      backgroundColor: FlutterFlowTheme.of(
-        context,
-      ).primaryBackground, // Diperbaiki penggunaan tema
+      backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
       appBar: AppBar(
-        backgroundColor: FlutterFlowTheme.of(
-          context,
-        ).primary, // Diperbaiki penggunaan tema
+        backgroundColor: FlutterFlowTheme.of(context).primary,
         title: Text(
           'Daftar Akun Baru',
           style: FlutterFlowTheme.of(context).headlineMedium.override(
-            // Diperbaiki penggunaan tema
             fontFamily: GoogleFonts.inter().fontFamily,
             color: Colors.white,
             fontSize: 22,
@@ -114,7 +117,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   child: Text(
                     'Buat Akun Anda',
                     style: FlutterFlowTheme.of(context).headlineLarge.override(
-                      // Diperbaiki penggunaan tema
                       fontFamily: GoogleFonts.inter().fontFamily,
                       fontWeight: FontWeight.bold,
                     ),
@@ -130,7 +132,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   child: Text(
                     'Isi detail di bawah untuk mendaftar.',
                     style: FlutterFlowTheme.of(context).labelMedium.override(
-                      // Diperbaiki penggunaan tema
                       fontFamily: GoogleFonts.inter().fontFamily,
                     ),
                   ),
@@ -140,50 +141,38 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   decoration: InputDecoration(
                     labelText: 'Nama Lengkap',
                     hintText: 'Masukkan nama lengkap Anda...',
-                    hintStyle: FlutterFlowTheme.of(
-                      context,
-                    ).bodyLarge, // Diperbaiki penggunaan tema
+                    hintStyle: FlutterFlowTheme.of(context).bodyLarge,
                     enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(
-                        color: FlutterFlowTheme.of(
-                          context,
-                        ).alternate, // Diperbaiki penggunaan tema
+                        color: FlutterFlowTheme.of(context).alternate,
                         width: 2,
                       ),
                       borderRadius: BorderRadius.circular(8),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(
-                        color: FlutterFlowTheme.of(
-                          context,
-                        ).primary, // Diperbaiki penggunaan tema
+                        color: FlutterFlowTheme.of(context).primary,
                         width: 2,
                       ),
                       borderRadius: BorderRadius.circular(8),
                     ),
                     errorBorder: OutlineInputBorder(
                       borderSide: BorderSide(
-                        color: FlutterFlowTheme.of(
-                          context,
-                        ).error, // Diperbaiki penggunaan tema
+                        color: FlutterFlowTheme.of(context).error,
                         width: 2,
                       ),
                       borderRadius: BorderRadius.circular(8),
                     ),
                     focusedErrorBorder: OutlineInputBorder(
                       borderSide: BorderSide(
-                        color: FlutterFlowTheme.of(
-                          context,
-                        ).error, // Diperbaiki penggunaan tema
+                        color: FlutterFlowTheme.of(context).error,
                         width: 2,
                       ),
                       borderRadius: BorderRadius.circular(8),
                     ),
                     contentPadding: const EdgeInsets.all(12),
                   ),
-                  style: FlutterFlowTheme.of(
-                    context,
-                  ).bodyLarge, // Diperbaiki penggunaan tema
+                  style: FlutterFlowTheme.of(context).bodyLarge,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Nama tidak boleh kosong';
@@ -197,50 +186,38 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   decoration: InputDecoration(
                     labelText: 'Email',
                     hintText: 'Masukkan email Anda...',
-                    hintStyle: FlutterFlowTheme.of(
-                      context,
-                    ).bodyLarge, // Diperbaiki penggunaan tema
+                    hintStyle: FlutterFlowTheme.of(context).bodyLarge,
                     enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(
-                        color: FlutterFlowTheme.of(
-                          context,
-                        ).alternate, // Diperbaiki penggunaan tema
+                        color: FlutterFlowTheme.of(context).alternate,
                         width: 2,
                       ),
                       borderRadius: BorderRadius.circular(8),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(
-                        color: FlutterFlowTheme.of(
-                          context,
-                        ).primary, // Diperbaiki penggunaan tema
+                        color: FlutterFlowTheme.of(context).primary,
                         width: 2,
                       ),
                       borderRadius: BorderRadius.circular(8),
                     ),
                     errorBorder: OutlineInputBorder(
                       borderSide: BorderSide(
-                        color: FlutterFlowTheme.of(
-                          context,
-                        ).error, // Diperbaiki penggunaan tema
+                        color: FlutterFlowTheme.of(context).error,
                         width: 2,
                       ),
                       borderRadius: BorderRadius.circular(8),
                     ),
                     focusedErrorBorder: OutlineInputBorder(
                       borderSide: BorderSide(
-                        color: FlutterFlowTheme.of(
-                          context,
-                        ).error, // Diperbaiki penggunaan tema
+                        color: FlutterFlowTheme.of(context).error,
                         width: 2,
                       ),
                       borderRadius: BorderRadius.circular(8),
                     ),
                     contentPadding: const EdgeInsets.all(12),
                   ),
-                  style: FlutterFlowTheme.of(
-                    context,
-                  ).bodyLarge, // Diperbaiki penggunaan tema
+                  style: FlutterFlowTheme.of(context).bodyLarge,
                   keyboardType: TextInputType.emailAddress,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -259,50 +236,38 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   decoration: InputDecoration(
                     labelText: 'Kata Sandi',
                     hintText: 'Buat kata sandi...',
-                    hintStyle: FlutterFlowTheme.of(
-                      context,
-                    ).bodyLarge, // Diperbaiki penggunaan tema
+                    hintStyle: FlutterFlowTheme.of(context).bodyLarge,
                     enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(
-                        color: FlutterFlowTheme.of(
-                          context,
-                        ).alternate, // Diperbaiki penggunaan tema
+                        color: FlutterFlowTheme.of(context).alternate,
                         width: 2,
                       ),
                       borderRadius: BorderRadius.circular(8),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(
-                        color: FlutterFlowTheme.of(
-                          context,
-                        ).primary, // Diperbaiki penggunaan tema
+                        color: FlutterFlowTheme.of(context).primary,
                         width: 2,
                       ),
                       borderRadius: BorderRadius.circular(8),
                     ),
                     errorBorder: OutlineInputBorder(
                       borderSide: BorderSide(
-                        color: FlutterFlowTheme.of(
-                          context,
-                        ).error, // Diperbaiki penggunaan tema
+                        color: FlutterFlowTheme.of(context).error,
                         width: 2,
                       ),
                       borderRadius: BorderRadius.circular(8),
                     ),
                     focusedErrorBorder: OutlineInputBorder(
                       borderSide: BorderSide(
-                        color: FlutterFlowTheme.of(
-                          context,
-                        ).error, // Diperbaiki penggunaan tema
+                        color: FlutterFlowTheme.of(context).error,
                         width: 2,
                       ),
                       borderRadius: BorderRadius.circular(8),
                     ),
                     contentPadding: const EdgeInsets.all(12),
                   ),
-                  style: FlutterFlowTheme.of(
-                    context,
-                  ).bodyLarge, // Diperbaiki penggunaan tema
+                  style: FlutterFlowTheme.of(context).bodyLarge,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Kata sandi tidak boleh kosong';
@@ -320,50 +285,38 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   decoration: InputDecoration(
                     labelText: 'Konfirmasi Kata Sandi',
                     hintText: 'Ketik ulang kata sandi...',
-                    hintStyle: FlutterFlowTheme.of(
-                      context,
-                    ).bodyLarge, // Diperbaiki penggunaan tema
+                    hintStyle: FlutterFlowTheme.of(context).bodyLarge,
                     enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(
-                        color: FlutterFlowTheme.of(
-                          context,
-                        ).alternate, // Diperbaiki penggunaan tema
+                        color: FlutterFlowTheme.of(context).alternate,
                         width: 2,
                       ),
                       borderRadius: BorderRadius.circular(8),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(
-                        color: FlutterFlowTheme.of(
-                          context,
-                        ).primary, // Diperbaiki penggunaan tema
+                        color: FlutterFlowTheme.of(context).primary,
                         width: 2,
                       ),
                       borderRadius: BorderRadius.circular(8),
                     ),
                     errorBorder: OutlineInputBorder(
                       borderSide: BorderSide(
-                        color: FlutterFlowTheme.of(
-                          context,
-                        ).error, // Diperbaiki penggunaan tema
+                        color: FlutterFlowTheme.of(context).error,
                         width: 2,
                       ),
                       borderRadius: BorderRadius.circular(8),
                     ),
                     focusedErrorBorder: OutlineInputBorder(
                       borderSide: BorderSide(
-                        color: FlutterFlowTheme.of(
-                          context,
-                        ).error, // Diperbaiki penggunaan tema
+                        color: FlutterFlowTheme.of(context).error,
                         width: 2,
                       ),
                       borderRadius: BorderRadius.circular(8),
                     ),
                     contentPadding: const EdgeInsets.all(12),
                   ),
-                  style: FlutterFlowTheme.of(
-                    context,
-                  ).bodyLarge, // Diperbaiki penggunaan tema
+                  style: FlutterFlowTheme.of(context).bodyLarge,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Konfirmasi kata sandi tidak boleh kosong';
@@ -393,12 +346,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       0.0,
                       0.0,
                     ),
-                    color: FlutterFlowTheme.of(
-                      context,
-                    ).primary, // Diperbaiki penggunaan tema
+                    color: FlutterFlowTheme.of(context).primary,
                     textStyle: FlutterFlowTheme.of(context).titleMedium
                         .override(
-                          // Diperbaiki penggunaan tema
                           fontFamily: GoogleFonts.inter().fontFamily,
                           color: Colors.white,
                         ),
@@ -418,25 +368,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     children: [
                       Text(
                         'Sudah punya akun?',
-                        style: FlutterFlowTheme.of(
-                          context,
-                        ).bodyMedium, // Diperbaiki penggunaan tema
+                        style: FlutterFlowTheme.of(context).bodyMedium,
                       ),
                       TextButton(
                         onPressed: () {
-                          context.pushNamed(
-                            AppRoutes.login,
-                          ); // Menggunakan context.pushNamed
+                          context.pushNamed(AppRoutes.login);
                         },
                         child: Text(
                           'Login Sekarang',
                           style: FlutterFlowTheme.of(context).bodyMedium
                               .override(
-                                // Diperbaiki penggunaan tema
                                 fontFamily: GoogleFonts.inter().fontFamily,
-                                color: FlutterFlowTheme.of(
-                                  context,
-                                ).primary, // Diperbaiki penggunaan tema
+                                color: FlutterFlowTheme.of(context).primary,
                                 fontWeight: FontWeight.bold,
                               ),
                         ),

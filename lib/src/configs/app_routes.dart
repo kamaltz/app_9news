@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 // Perbaiki semua jalur impor untuk menggunakan package:app_9news
 import 'package:app_9news/src/views/create_edit_article_screen.dart';
 import 'package:app_9news/src/views/auth/login_screen.dart'; // Diperbaiki path
-import 'package:app_9news/src/views/main_screen.dart';
+import 'package:app_9news/src/views/homepage.dart';
 import 'package:app_9news/src/views/my_articles_screen.dart';
 import 'package:app_9news/src/views/auth/register_screen.dart'; // Diperbaiki path
-import 'package:app_9news/lib/introduction/splash_screen.dart'; // Diperbaiki path
+import 'package:app_9news/src/views/onboarding/splash_screen.dart'; // Diperbaiki path
 import 'package:app_9news/src/views/news/news_detail_page.dart'; // Menggunakan NewsDetailPage yang baru
 
-import 'package:app_9news/lib/introduction/introduction1.dart'; // Tambahkan ini
-import 'package:app_9news/lib/introduction/introduction2.dart'; // Tambahkan ini
-import 'package:app_9news/lib/introduction/introduction3.dart'; // Tambahkan ini
+import 'package:app_9news/src/views/onboarding/introduction3.dart'; // Tambahkan ini
+import 'package:app_9news/src/views/onboarding/introduction2.dart'; // Tambahkan ini
+import 'package:app_9news/src/views/onboarding/introduction3.dart'; // Tambahkan ini
 import 'package:app_9news/src/views/news/news_list_page.dart'; // Tambahkan ini
 
 class AppRoutes {
@@ -39,11 +39,11 @@ class AppRoutes {
       case splash:
         return MaterialPageRoute(builder: (_) => const SplashScreen());
       case introduction1: // Tambahkan case untuk introduction1
-        return MaterialPageRoute(builder: (_) => const Introduction1());
+        return MaterialPageRoute(builder: (_) => const introduction1());
       case introduction2: // Tambahkan case untuk introduction2
-        return MaterialPageRoute(builder: (_) => const Introduction2());
+        return MaterialPageRoute(builder: (_) => const introduction2());
       case introduction3: // Tambahkan case untuk introduction3
-        return MaterialPageRoute(builder: (_) => const Introduction3());
+        return MaterialPageRoute(builder: (_) => const introduction3());
       case login:
         return MaterialPageRoute(builder: (_) => const LoginScreen());
       case register:

@@ -1,19 +1,15 @@
-// lib/src/views/auth/login_screen.dart (Lokasi baru)
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart'; // Pastikan package ini ada di pubspec.yaml
-import 'package:app_9news/src/provider/auth_provider.dart'; // Diperbaiki jalur impor
-import 'package:app_9news/src/configs/app_routes.dart'; // Diperbaiki jalur impor
-
-// Asumsi Anda memiliki file-file ini di lib/flutter_flow/
-// Jika mereka bukan package terpisah, pastikan jalur ini benar relatif terhadap root lib/
-import 'package:app_9news/flutter_flow/flutter_flow_theme.dart'; // Diperbaiki jalur impor
-import 'package:app_9news/flutter_flow/flutter_flow_widgets.dart'; // Diperbaiki jalur impor
-import 'package:app_9news/flutter_flow/flutter_flow_util.dart'; // Diperbaiki jalur impor
+import 'package:provider/provider.dart';
+import 'package:app_9news/src/provider/auth_provider.dart';
+import 'package:app_9news/src/configs/app_routes.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
+
+  // Tambahkan definisi static routeName dan routePath di sini
+  static String routeName = AppRoutes.login; // Menggunakan rute dari AppRoutes
+  static String routePath = '/login'; // Sesuaikan dengan AppRoutes.login
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -39,20 +35,14 @@ class _LoginScreenState extends State<LoginScreen> {
         _passwordController.text,
       );
 
-      // Pastikan widget masih mounted sebelum menggunakan BuildContext setelah async gap
       if (!mounted) return;
 
       if (success) {
-        // Navigasi ke halaman utama setelah login berhasil
-        context.pushNamed(
-          AppRoutes.home,
-        ); // Menggunakan context.pushNamed dari flutter_flow_util.dart
+        context.pushNamed(AppRoutes.home);
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: const Text(
-              'Login gagal. Periksa email dan kata sandi Anda.',
-            ),
+          const SnackBar(
+            content: Text('Login gagal. Periksa email dan kata sandi Anda.'),
             backgroundColor: Colors.red,
           ),
         );
@@ -65,17 +55,12 @@ class _LoginScreenState extends State<LoginScreen> {
     final authProvider = context.watch<AuthProvider>();
 
     return Scaffold(
-      backgroundColor: FlutterFlowTheme.of(
-        context,
-      ).primaryBackground, // Diperbaiki penggunaan tema
+      backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
       appBar: AppBar(
-        backgroundColor: FlutterFlowTheme.of(
-          context,
-        ).primary, // Diperbaiki penggunaan tema
+        backgroundColor: FlutterFlowTheme.of(context).primary,
         title: Text(
           'Login',
           style: FlutterFlowTheme.of(context).headlineMedium.override(
-            // Diperbaiki penggunaan tema
             fontFamily: GoogleFonts.inter().fontFamily,
             color: Colors.white,
             fontSize: 22,
@@ -102,7 +87,6 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: Text(
                     'Selamat Datang Kembali!',
                     style: FlutterFlowTheme.of(context).headlineLarge.override(
-                      // Diperbaiki penggunaan tema
                       fontFamily: GoogleFonts.inter().fontFamily,
                       fontWeight: FontWeight.bold,
                     ),
@@ -118,7 +102,6 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: Text(
                     'Silakan masuk untuk melanjutkan.',
                     style: FlutterFlowTheme.of(context).labelMedium.override(
-                      // Diperbaiki penggunaan tema
                       fontFamily: GoogleFonts.inter().fontFamily,
                     ),
                   ),
@@ -128,50 +111,38 @@ class _LoginScreenState extends State<LoginScreen> {
                   decoration: InputDecoration(
                     labelText: 'Email',
                     hintText: 'Masukkan email Anda...',
-                    hintStyle: FlutterFlowTheme.of(
-                      context,
-                    ).bodyLarge, // Diperbaiki penggunaan tema
+                    hintStyle: FlutterFlowTheme.of(context).bodyLarge,
                     enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(
-                        color: FlutterFlowTheme.of(
-                          context,
-                        ).alternate, // Diperbaiki penggunaan tema
+                        color: FlutterFlowTheme.of(context).alternate,
                         width: 2,
                       ),
                       borderRadius: BorderRadius.circular(8),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(
-                        color: FlutterFlowTheme.of(
-                          context,
-                        ).primary, // Diperbaiki penggunaan tema
+                        color: FlutterFlowTheme.of(context).primary,
                         width: 2,
                       ),
                       borderRadius: BorderRadius.circular(8),
                     ),
                     errorBorder: OutlineInputBorder(
                       borderSide: BorderSide(
-                        color: FlutterFlowTheme.of(
-                          context,
-                        ).error, // Diperbaiki penggunaan tema
+                        color: FlutterFlowTheme.of(context).error,
                         width: 2,
                       ),
                       borderRadius: BorderRadius.circular(8),
                     ),
                     focusedErrorBorder: OutlineInputBorder(
                       borderSide: BorderSide(
-                        color: FlutterFlowTheme.of(
-                          context,
-                        ).error, // Diperbaiki penggunaan tema
+                        color: FlutterFlowTheme.of(context).error,
                         width: 2,
                       ),
                       borderRadius: BorderRadius.circular(8),
                     ),
                     contentPadding: const EdgeInsets.all(12),
                   ),
-                  style: FlutterFlowTheme.of(
-                    context,
-                  ).bodyLarge, // Diperbaiki penggunaan tema
+                  style: FlutterFlowTheme.of(context).bodyLarge,
                   keyboardType: TextInputType.emailAddress,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -190,50 +161,38 @@ class _LoginScreenState extends State<LoginScreen> {
                   decoration: InputDecoration(
                     labelText: 'Kata Sandi',
                     hintText: 'Masukkan kata sandi Anda...',
-                    hintStyle: FlutterFlowTheme.of(
-                      context,
-                    ).bodyLarge, // Diperbaiki penggunaan tema
+                    hintStyle: FlutterFlowTheme.of(context).bodyLarge,
                     enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(
-                        color: FlutterFlowTheme.of(
-                          context,
-                        ).alternate, // Diperbaiki penggunaan tema
+                        color: FlutterFlowTheme.of(context).alternate,
                         width: 2,
                       ),
                       borderRadius: BorderRadius.circular(8),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(
-                        color: FlutterFlowTheme.of(
-                          context,
-                        ).primary, // Diperbaiki penggunaan tema
+                        color: FlutterFlowTheme.of(context).primary,
                         width: 2,
                       ),
                       borderRadius: BorderRadius.circular(8),
                     ),
                     errorBorder: OutlineInputBorder(
                       borderSide: BorderSide(
-                        color: FlutterFlowTheme.of(
-                          context,
-                        ).error, // Diperbaiki penggunaan tema
+                        color: FlutterFlowTheme.of(context).error,
                         width: 2,
                       ),
                       borderRadius: BorderRadius.circular(8),
                     ),
                     focusedErrorBorder: OutlineInputBorder(
                       borderSide: BorderSide(
-                        color: FlutterFlowTheme.of(
-                          context,
-                        ).error, // Diperbaiki penggunaan tema
+                        color: FlutterFlowTheme.of(context).error,
                         width: 2,
                       ),
                       borderRadius: BorderRadius.circular(8),
                     ),
                     contentPadding: const EdgeInsets.all(12),
                   ),
-                  style: FlutterFlowTheme.of(
-                    context,
-                  ).bodyLarge, // Diperbaiki penggunaan tema
+                  style: FlutterFlowTheme.of(context).bodyLarge,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Kata sandi tidak boleh kosong';
@@ -263,12 +222,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       0.0,
                       0.0,
                     ),
-                    color: FlutterFlowTheme.of(
-                      context,
-                    ).primary, // Diperbaiki penggunaan tema
+                    color: FlutterFlowTheme.of(context).primary,
                     textStyle: FlutterFlowTheme.of(context).titleMedium
                         .override(
-                          // Diperbaiki penggunaan tema
                           fontFamily: GoogleFonts.inter().fontFamily,
                           color: Colors.white,
                         ),
@@ -288,25 +244,18 @@ class _LoginScreenState extends State<LoginScreen> {
                     children: [
                       Text(
                         'Belum punya akun?',
-                        style: FlutterFlowTheme.of(
-                          context,
-                        ).bodyMedium, // Diperbaiki penggunaan tema
+                        style: FlutterFlowTheme.of(context).bodyMedium,
                       ),
                       TextButton(
                         onPressed: () {
-                          context.pushNamed(
-                            AppRoutes.register,
-                          ); // Menggunakan context.pushNamed
+                          context.pushNamed(AppRoutes.register);
                         },
                         child: Text(
                           'Daftar Sekarang',
                           style: FlutterFlowTheme.of(context).bodyMedium
                               .override(
-                                // Diperbaiki penggunaan tema
                                 fontFamily: GoogleFonts.inter().fontFamily,
-                                color: FlutterFlowTheme.of(
-                                  context,
-                                ).primary, // Diperbaiki penggunaan tema
+                                color: FlutterFlowTheme.of(context).primary,
                                 fontWeight: FontWeight.bold,
                               ),
                         ),
