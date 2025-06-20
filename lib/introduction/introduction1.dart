@@ -15,7 +15,7 @@ class Introduction1 extends StatelessWidget {
     final isMobile = MediaQuery.of(context).size.width < 600;
 
     return Scaffold(
-      backgroundColor: theme.colorScheme.background,
+      backgroundColor: theme.colorScheme.surface,
       body: SafeArea(
         child: Center(
           child: Column(
@@ -23,8 +23,8 @@ class Introduction1 extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const SizedBox(height: 100),
-              Image.asset(
-                'assets/images/introduction1.png',
+              Image.network(
+                'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/news-app-mq22f9/assets/xrvwhqxnuxh9/introduction1.png',
                 width: 323.8,
                 height: 302.27,
                 fit: BoxFit.cover,

@@ -8,7 +8,7 @@ plugins {
 android {
     namespace = "com.example.app_9news"
     compileSdk = flutter.compileSdkVersion
-    ndkVersion = flutter.ndkVersion
+    ndkVersion = "27.0.12077973" // Baris ini telah diperbarui dari flutter.ndkVersion
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
