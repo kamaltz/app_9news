@@ -1,18 +1,18 @@
-// lib/src/views/homepage.dart
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:carousel_slider/carousel_slider.dart'; // Impor package carousel
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:app_9news/src/provider/news_provider.dart';
 import 'package:app_9news/src/models/news_model.dart';
 import 'package:app_9news/src/configs/app_routes.dart';
 
-// Import halaman-halaman baru untuk Bottom Nav Bar
+// Import halaman-halaman lain
 import 'package:app_9news/src/views/explore/explore_screen.dart';
 import 'package:app_9news/src/views/bookmarks/bookmarks_screen.dart';
 import 'package:app_9news/src/views/profile/profile_screen.dart';
 
-// --- WIDGET UTAMA DENGAN BOTTOM NAV BAR ---
+// Kunci global untuk mengakses state MainWrapper dari luar
+final mainWrapperKey = GlobalKey<_MainWrapperState>();
+
 class MainWrapper extends StatefulWidget {
   const MainWrapper({super.key});
 
@@ -23,25 +23,24 @@ class MainWrapper extends StatefulWidget {
 class _MainWrapperState extends State<MainWrapper> {
   int _selectedIndex = 0;
 
-  // Daftar halaman untuk navigasi
   static const List<Widget> _widgetOptions = <Widget>[
-    Homepage(), // Halaman Beranda
+    Homepage(),
     ExploreScreen(),
     BookmarksScreen(),
     ProfileScreen(),
   ];
 
-  void _onItemTapped(int index) {
-    // Memuat data saat tab dipilih (jika perlu)
-    if (index == 2) {
-      // Tab Bookmark
+  void goToTab(int index) {
+    if (_selectedIndex == index) return;
+
+    if (index == 1)
+      Provider.of<NewsProvider>(context, listen: false).fetchExploreArticles();
+    if (index == 2)
       Provider.of<NewsProvider>(context, listen: false)
           .fetchBookmarkedArticles();
-    }
-    if (index == 3) {
-      // Tab Profil
+    if (index == 3)
       Provider.of<NewsProvider>(context, listen: false).fetchUserArticles();
-    }
+
     setState(() {
       _selectedIndex = index;
     });
@@ -50,26 +49,15 @@ class _MainWrapperState extends State<MainWrapper> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: mainWrapperKey,
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 1,
-        // Logo di AppBar
-        title: Image.network(
-          'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/news-app-mq22f9/assets/zkr1nait25m0/Logo.png',
-          height: 35, // Ukuran logo diperbesar
-          fit: BoxFit.contain,
-        ),
+        title: Image.asset('assets/images/Logo.png',
+            height: 40, fit: BoxFit.contain),
         centerTitle: false,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.notifications_none_outlined,
-                color: Colors.black),
-            onPressed: () {},
-          )
-        ],
       ),
       body: IndexedStack(
-        // Menggunakan IndexedStack agar state halaman tidak hilang
         index: _selectedIndex,
         children: _widgetOptions,
       ),
@@ -97,16 +85,14 @@ class _MainWrapperState extends State<MainWrapper> {
         unselectedItemColor: Colors.grey,
         showUnselectedLabels: true,
         type: BottomNavigationBarType.fixed,
-        onTap: _onItemTapped,
+        onTap: goToTab,
       ),
     );
   }
 }
 
-// --- WIDGET KHUSUS UNTUK TAMPILAN BERANDA ---
 class Homepage extends StatefulWidget {
   const Homepage({super.key});
-
   @override
   State<Homepage> createState() => _HomepageState();
 }
@@ -115,7 +101,6 @@ class _HomepageState extends State<Homepage> {
   @override
   void initState() {
     super.initState();
-    // Ambil data saat halaman pertama kali dimuat
     WidgetsBinding.instance.addPostFrameCallback((_) {
       Provider.of<NewsProvider>(context, listen: false).fetchHomepageData();
     });
@@ -130,7 +115,6 @@ class _HomepageState extends State<Homepage> {
           if (provider.isHomepageLoading && provider.latestArticles.isEmpty) {
             return const Center(child: CircularProgressIndicator());
           }
-
           return RefreshIndicator(
             onRefresh: () => provider.fetchHomepageData(),
             child: ListView(
@@ -139,13 +123,12 @@ class _HomepageState extends State<Homepage> {
                 _buildSearchField(context),
                 const SizedBox(height: 24),
                 if (provider.trendingArticles.isNotEmpty)
-                  _buildTrendingCarousel(provider.trendingArticles),
+                  _buildTrendingCarousel(context, provider.trendingArticles),
                 const SizedBox(height: 24),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   child: _buildSectionHeader('Berita Terbaru', () {
-                    // Navigasi ke Halaman Jelajah
-                    DefaultTabController.of(context)?.animateTo(1);
+                    mainWrapperKey.currentState?.goToTab(1);
                   }),
                 ),
                 const SizedBox(height: 16),
@@ -157,70 +140,61 @@ class _HomepageState extends State<Homepage> {
       ),
     );
   }
+}
 
-  // Widget Pencarian
-  Widget _buildSearchField(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-      child: GestureDetector(
-        onTap: () {
-          // Navigasi ke tab Jelajah (indeks 1)
-          // Ini cara sederhana, idealnya menggunakan state management yang lebih kompleks
-          // untuk berpindah tab dari dalam widget anak.
-          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-            content: Text("Navigasi ke halaman Jelajah..."),
-            duration: Duration(seconds: 1),
-          ));
-        },
-        child: AbsorbPointer(
-          child: TextField(
-            decoration: InputDecoration(
-              hintText: 'Cari berita atau topik...',
-              prefixIcon: const Icon(Icons.search),
-              filled: true,
-              fillColor: Colors.white,
-              border: OutlineInputBorder(
+// --- WIDGET HELPER DI LUAR KELAS ---
+
+Widget _buildSearchField(BuildContext context) {
+  return Padding(
+    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+    child: GestureDetector(
+      onTap: () => mainWrapperKey.currentState?.goToTab(1),
+      child: AbsorbPointer(
+        child: TextField(
+          decoration: InputDecoration(
+            hintText: 'Cari berita atau topik...',
+            prefixIcon: const Icon(Icons.search),
+            filled: true,
+            fillColor: Colors.white,
+            border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
-                borderSide: BorderSide.none,
-              ),
-            ),
+                borderSide: BorderSide.none),
           ),
         ),
       ),
-    );
-  }
+    ),
+  );
+}
 
-  // Widget Carousel Berita Trending
-  Widget _buildTrendingCarousel(List<NewsArticle> articles) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          child: _buildSectionHeader('Trending', () {}),
-        ),
-        const SizedBox(height: 16),
-        CarouselSlider.builder(
-          itemCount: articles.length,
-          itemBuilder: (context, index, realIndex) {
-            final article = articles[index];
-            return TrendingNewsCard(article: article);
-          },
-          options: CarouselOptions(
+Widget _buildTrendingCarousel(
+    BuildContext context, List<NewsArticle> articles) {
+  final newsProvider = Provider.of<NewsProvider>(context, listen: false);
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+        child: _buildSectionHeader('Trending', () {
+          mainWrapperKey.currentState?.goToTab(1);
+          newsProvider.selectCategory("Trending");
+        }),
+      ),
+      const SizedBox(height: 16),
+      CarouselSlider.builder(
+        itemCount: articles.length,
+        itemBuilder: (context, index, realIndex) =>
+            TrendingNewsCard(article: articles[index]),
+        options: CarouselOptions(
             height: 220,
             autoPlay: true,
             enlargeCenterPage: true,
-            viewportFraction: 0.85,
-            aspectRatio: 16 / 9,
-          ),
-        ),
-      ],
-    );
-  }
+            viewportFraction: 0.85),
+      ),
+    ],
+  );
+}
 
-  // Widget Header (Judul dan Tombol Lihat Semua)
-  Widget _buildSectionHeader(String title, VoidCallback onViewAll) {
-    return Row(
+Widget _buildSectionHeader(String title, VoidCallback onViewAll) => Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(title,
@@ -228,24 +202,17 @@ class _HomepageState extends State<Homepage> {
         TextButton(onPressed: onViewAll, child: const Text('Lihat Semua')),
       ],
     );
-  }
 
-  // Widget Daftar Berita Terbaru
-  Widget _buildLatestNewsList(List<NewsArticle> articles) {
-    return ListView.builder(
-      itemCount: articles.length,
+Widget _buildLatestNewsList(List<NewsArticle> articles) => ListView.builder(
+      itemCount: articles.length > 10 ? 10 : articles.length,
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
-      itemBuilder: (context, index) {
-        final article = articles[index];
-        return LatestNewsCard(article: article);
-      },
+      itemBuilder: (context, index) => LatestNewsCard(article: articles[index]),
     );
-  }
-}
 
-// --- WIDGET CARD UNTUK BERITA TRENDING ---
+// --- WIDGET CARD YANG BISA DIGUNAKAN KEMBALI ---
+
 class TrendingNewsCard extends StatelessWidget {
   final NewsArticle article;
   const TrendingNewsCard({super.key, required this.article});
@@ -273,10 +240,9 @@ class TrendingNewsCard extends StatelessWidget {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(16),
               gradient: const LinearGradient(
-                colors: [Colors.black54, Colors.transparent],
-                begin: Alignment.bottomCenter,
-                end: Alignment.topCenter,
-              ),
+                  colors: [Colors.black54, Colors.transparent],
+                  begin: Alignment.bottomCenter,
+                  end: Alignment.topCenter),
             ),
           ),
           Positioned(
@@ -290,15 +256,13 @@ class TrendingNewsCard extends StatelessWidget {
                     style:
                         const TextStyle(color: Colors.white70, fontSize: 12)),
                 const SizedBox(height: 4),
-                Text(
-                  article.title,
-                  style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold),
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                ),
+                Text(article.title,
+                    style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis),
               ],
             ),
           )
@@ -308,7 +272,6 @@ class TrendingNewsCard extends StatelessWidget {
   }
 }
 
-// --- WIDGET CARD UNTUK BERITA TERBARU ---
 class LatestNewsCard extends StatelessWidget {
   final NewsArticle article;
   const LatestNewsCard({super.key, required this.article});
@@ -322,9 +285,7 @@ class LatestNewsCard extends StatelessWidget {
         margin: const EdgeInsets.only(bottom: 16),
         padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(12),
-        ),
+            color: Colors.white, borderRadius: BorderRadius.circular(12)),
         child: Row(
           children: [
             ClipRRect(
@@ -352,13 +313,11 @@ class LatestNewsCard extends StatelessWidget {
                           fontWeight: FontWeight.bold,
                           fontSize: 12)),
                   const SizedBox(height: 8),
-                  Text(
-                    article.title,
-                    style: const TextStyle(
-                        fontSize: 15, fontWeight: FontWeight.bold),
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                  ),
+                  Text(article.title,
+                      style: const TextStyle(
+                          fontSize: 15, fontWeight: FontWeight.bold),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis),
                   const SizedBox(height: 8),
                   Row(
                     children: [
