@@ -1,12 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:app_9news/src/views/auth/login_screen.dart';
+// Baris ini akan menjadi usang jika Anda menggunakan AppRoutes untuk navigasi.
+// import 'package:app_9news/src/views/auth/login_screen.dart';
+
+// Penting: Impor AppRoutes untuk mengakses nama rute yang benar
+import 'package:app_9news/src/configs/app_routes.dart'; // <--- Tambahkan baris ini
+
+// Asumsi Anda memiliki impor lain yang relevan seperti dari flutter_flow
+// import 'package:app_9news/flutter_flow/flutter_flow_theme.dart';
+// import 'package:app_9news/flutter_flow/flutter_flow_util.dart';
+// import 'package:app_9news/flutter_flow/flutter_flow_widgets.dart';
 
 class Introduction3 extends StatelessWidget {
   const Introduction3({super.key});
 
-  static const String routeName = 'introduction3';
-  static const String routePath = '/introduction3';
+  // Nama rute statis ini mungkin tidak lagi diperlukan di sini jika Anda menggunakan AppRoutes sepenuhnya
+  // static const String routeName = 'introduction3';
+  // static const String routePath = '/introduction3';
 
   Widget _featureCard({
     required BuildContext context,
@@ -24,7 +34,7 @@ class Introduction3 extends StatelessWidget {
       child: Row(
         children: [
           const SizedBox(width: 20),
-          Icon(icon, color: Theme.of(context).primaryColor, size: 28),
+          Icon(icon, color: Theme.of(context).colorScheme.primary, size: 28),
           const SizedBox(width: 20),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -120,11 +130,16 @@ class Introduction3 extends StatelessWidget {
                   height: 40,
                   child: ElevatedButton(
                     onPressed: () {
-                      // PERBAIKAN DI SINI: Akses routeName secara statis melalui kelas
-                      Navigator.pushNamed(context, LoginScreen.routeName);
+                      // PERBAIKAN DI SINI: Gunakan AppRoutes.login
+                      Navigator.pushNamed(
+                        context,
+                        AppRoutes.login,
+                      ); // <--- Perubahan penting
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Theme.of(context).primaryColor,
+                      backgroundColor: Theme.of(
+                        context,
+                      ).colorScheme.primary, // Gunakan colorScheme
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),

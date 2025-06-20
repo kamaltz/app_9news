@@ -1,102 +1,101 @@
+// lib/src/views/onboarding/introduction1.dart
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:app_9news/oboarding/introduction2.dart';
-import 'package:app_9news/oboarding/introduction3.dart';
+import 'package:app_9news/src/configs/app_routes.dart'; // Impor AppRoutes
+// Impor berkas onboarding lainnya dari jalur yang benar
+// Pastikan jalur ini benar
+// Pastikan jalur ini benar
 
 class Introduction1 extends StatelessWidget {
   const Introduction1({super.key});
 
-  static const String routeName = 'introduction1';
-  static const String routePath = '/introduction1';
-
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final isMobile = MediaQuery.of(context).size.width < 600;
-
     return Scaffold(
-      backgroundColor: theme.colorScheme.surface,
+      backgroundColor: Theme.of(context).colorScheme.surface,
       body: SafeArea(
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              const SizedBox(height: 100),
-              Image.network(
-                'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/news-app-mq22f9/assets/xrvwhqxnuxh9/introduction1.png',
-                width: 323.8,
-                height: 302.27,
-                fit: BoxFit.cover,
-              ),
-              const SizedBox(height: 10),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: isMobile ? 25 : 250),
-                child: Text(
-                  'Jangan sampai ketinggalan berita di mana pun!',
-                  textAlign: TextAlign.start,
-                  style: GoogleFonts.inter(
-                    fontWeight: FontWeight.bold,
-                    color: theme.primaryColor,
-                    fontSize: 20,
+        child: GestureDetector(
+          onTap: () => FocusScope.of(context).unfocus(),
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                const SizedBox(height: 10),
+                Padding(
+                  padding: const EdgeInsets.only(left: 30),
+                  child: Row(
+                    children: [
+                      Image.network(
+                        'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/news-app-mq22f9/assets/zkr1nait25m0/Logo.png',
+                        width: 120,
+                        height: 30,
+                        fit: BoxFit.cover,
+                      ),
+                    ],
                   ),
                 ),
-              ),
-              const SizedBox(height: 10),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: isMobile ? 25 : 250),
-                child: Text(
-                  'Dapatkan pemberitahuan langsung untuk berita terkini dan berita yang sedang tren, di mana pun Anda berada. 9News memberikan informasi yang Anda butuhkan.',
-                  textAlign: TextAlign.justify,
-                  style: GoogleFonts.inter(),
+                const SizedBox(height: 40),
+                Image.network(
+                  'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/news-app-mq22f9/assets/70f3f262r00l/introduction1.png',
+                  width: 200,
+                  height: 200,
+                  fit: BoxFit.cover,
                 ),
-              ),
-              const Spacer(),
-              Padding(
-                padding: const EdgeInsets.only(bottom: 350),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    OutlinedButton(
-                      onPressed: () {
-                        Navigator.pushNamed(context, Introduction3.routeName);
-                      },
-                      style: OutlinedButton.styleFrom(
-                        side: BorderSide(color: theme.primaryColor),
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 10,
-                        ),
-                      ),
-                      child: Text(
-                        'Lewati',
-                        style: GoogleFonts.interTight(
-                          fontWeight: FontWeight.bold,
-                          color: theme.primaryColor,
-                        ),
+                const SizedBox(height: 10),
+                Text(
+                  'Selamat Datang di 9News',
+                  style: GoogleFonts.inter(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                  ),
+                ),
+                const SizedBox(height: 10),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 40),
+                  child: Text(
+                    'Gerbang pribadi Anda menuju berita terkini dan kisah yang sedang tren dari seluruh dunia, dirancang khusus untuk Anda.',
+                    textAlign: TextAlign.justify,
+                    style: GoogleFonts.inter(),
+                  ),
+                ),
+                const SizedBox(height: 100),
+                SizedBox(
+                  width: 285,
+                  height: 40,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      // Ganti introduction2.routeName dengan AppRoutes.introduction2
+                      Navigator.pushNamed(context, AppRoutes.introduction2);
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Theme.of(context).colorScheme.primary,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
                       ),
                     ),
-                    const SizedBox(width: 150),
-                    ElevatedButton(
-                      onPressed: () {
-                        Navigator.pushNamed(context, Introduction2.routeName);
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: theme.primaryColor,
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 10,
-                        ),
-                      ),
-                      child: Text(
-                        'Lanjutkan',
-                        style: GoogleFonts.interTight(color: Colors.white),
-                      ),
+                    child: Text(
+                      'Selanjutnya',
+                      style: GoogleFonts.interTight(color: Colors.white),
                     ),
-                  ],
+                  ),
                 ),
-              ),
-            ],
+                const SizedBox(height: 20),
+                GestureDetector(
+                  onTap: () {
+                    // Ganti introduction3.routeName dengan AppRoutes.introduction3
+                    Navigator.pushNamed(context, AppRoutes.introduction3);
+                  },
+                  child: Text(
+                    'Lewati',
+                    style: GoogleFonts.interTight(
+                      color: Theme.of(context).colorScheme.primary,
+                      decoration: TextDecoration.underline,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 60),
+              ],
+            ),
           ),
         ),
       ),

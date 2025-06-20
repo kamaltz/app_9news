@@ -1,50 +1,63 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:app_9news/src/provider/auth_provider.dart';
+// Hapus import yang tidak digunakan ini (AuthController atau AuthService)
+// import 'package:app_9news/src/controller/auth_service.dart'; // Hapus baris ini
+import 'package:app_9news/src/provider/auth_provider.dart'; // Pastikan ini diimpor
 import 'package:app_9news/src/configs/app_routes.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
-
-  // Tambahkan definisi static routeName dan routePath di sini
-  static String routeName = AppRoutes.login; // Menggunakan rute dari AppRoutes
-  static String routePath = '/login'; // Sesuaikan dengan AppRoutes.login
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
+  final _unfocusNode = FocusNode();
+  TextEditingController? _emailController;
+  TextEditingController? _passwordController;
+  late bool passwordVisibility;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
+  void initState() {
+    super.initState();
+    _emailController = TextEditingController();
+    _passwordController = TextEditingController();
+    passwordVisibility = false;
+  }
+
+  @override
   void dispose() {
-    _emailController.dispose();
-    _passwordController.dispose();
+    _unfocusNode.dispose();
+    _emailController?.dispose();
+    _passwordController?.dispose();
     super.dispose();
   }
 
+  // Metode untuk menangani proses login
   Future<void> _handleLogin() async {
-    if (_formKey.currentState?.validate() ?? false) {
+    if (_formKey.currentState!.validate()) {
+      // Gunakan context.read untuk mengakses provider di luar metode build
       final authProvider = context.read<AuthProvider>();
-      bool success = await authProvider.login(
-        _emailController.text,
-        _passwordController.text,
+
+      await authProvider.login(
+        _emailController!.text,
+        _passwordController!.text,
       );
 
+      // PENTING: Lakukan pemeriksaan 'mounted' setelah await
       if (!mounted) return;
 
-      if (success) {
-        context.pushNamed(AppRoutes.home);
+      if (authProvider.isAuthenticated) {
+        // PENTING: Lakukan pemeriksaan 'mounted' sebelum navigasi
+        if (!mounted) return;
+        Navigator.pushReplacementNamed(context, AppRoutes.home);
       } else {
+        // PENTING: Lakukan pemeriksaan 'mounted' sebelum menampilkan SnackBar
+        if (!mounted) return;
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Login gagal. Periksa email dan kata sandi Anda.'),
-            backgroundColor: Colors.red,
-          ),
+          SnackBar(content: Text(authProvider.errorMessage ?? 'Login gagal')),
         );
       }
     }
@@ -52,215 +65,251 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // Gunakan context.watch untuk mendengarkan perubahan pada provider di dalam metode build
     final authProvider = context.watch<AuthProvider>();
+    final ThemeData theme = Theme.of(context);
+    final TextTheme textTheme = theme.textTheme;
+    final ColorScheme colorScheme = theme.colorScheme;
 
-    return Scaffold(
-      backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
-      appBar: AppBar(
-        backgroundColor: FlutterFlowTheme.of(context).primary,
-        title: Text(
-          'Login',
-          style: FlutterFlowTheme.of(context).headlineMedium.override(
-            fontFamily: GoogleFonts.inter().fontFamily,
-            color: Colors.white,
-            fontSize: 22,
-          ),
-        ),
-        centerTitle: true,
-        elevation: 2,
-      ),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(16.0),
-          child: Form(
-            key: _formKey,
+    return GestureDetector(
+      onTap: () => FocusScope.of(context).requestFocus(_unfocusNode),
+      child: Scaffold(
+        backgroundColor: colorScheme.surface,
+        body: SafeArea(
+          child: SingleChildScrollView(
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.max,
               children: [
+                const SizedBox(height: 10),
                 Padding(
-                  padding: const EdgeInsetsDirectional.fromSTEB(
-                    0.0,
-                    40.0,
-                    0.0,
-                    0.0,
-                  ),
-                  child: Text(
-                    'Selamat Datang Kembali!',
-                    style: FlutterFlowTheme.of(context).headlineLarge.override(
-                      fontFamily: GoogleFonts.inter().fontFamily,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsetsDirectional.fromSTEB(
-                    0.0,
-                    8.0,
-                    0.0,
-                    24.0,
-                  ),
-                  child: Text(
-                    'Silakan masuk untuk melanjutkan.',
-                    style: FlutterFlowTheme.of(context).labelMedium.override(
-                      fontFamily: GoogleFonts.inter().fontFamily,
-                    ),
-                  ),
-                ),
-                TextFormField(
-                  controller: _emailController,
-                  decoration: InputDecoration(
-                    labelText: 'Email',
-                    hintText: 'Masukkan email Anda...',
-                    hintStyle: FlutterFlowTheme.of(context).bodyLarge,
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                        color: FlutterFlowTheme.of(context).alternate,
-                        width: 2,
-                      ),
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                        color: FlutterFlowTheme.of(context).primary,
-                        width: 2,
-                      ),
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    errorBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                        color: FlutterFlowTheme.of(context).error,
-                        width: 2,
-                      ),
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    focusedErrorBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                        color: FlutterFlowTheme.of(context).error,
-                        width: 2,
-                      ),
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    contentPadding: const EdgeInsets.all(12),
-                  ),
-                  style: FlutterFlowTheme.of(context).bodyLarge,
-                  keyboardType: TextInputType.emailAddress,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Email tidak boleh kosong';
-                    }
-                    if (!value.contains('@')) {
-                      return 'Masukkan email yang valid';
-                    }
-                    return null;
-                  },
-                ),
-                const SizedBox(height: 16.0),
-                TextFormField(
-                  controller: _passwordController,
-                  obscureText: true,
-                  decoration: InputDecoration(
-                    labelText: 'Kata Sandi',
-                    hintText: 'Masukkan kata sandi Anda...',
-                    hintStyle: FlutterFlowTheme.of(context).bodyLarge,
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                        color: FlutterFlowTheme.of(context).alternate,
-                        width: 2,
-                      ),
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                        color: FlutterFlowTheme.of(context).primary,
-                        width: 2,
-                      ),
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    errorBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                        color: FlutterFlowTheme.of(context).error,
-                        width: 2,
-                      ),
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    focusedErrorBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                        color: FlutterFlowTheme.of(context).error,
-                        width: 2,
-                      ),
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    contentPadding: const EdgeInsets.all(12),
-                  ),
-                  style: FlutterFlowTheme.of(context).bodyLarge,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Kata sandi tidak boleh kosong';
-                    }
-                    if (value.length < 6) {
-                      return 'Kata sandi minimal 6 karakter';
-                    }
-                    return null;
-                  },
-                ),
-                const SizedBox(height: 24.0),
-                FFButtonWidget(
-                  onPressed: authProvider.isLoading ? null : _handleLogin,
-                  text: authProvider.isLoading ? 'Memuat...' : 'Login',
-                  options: FFButtonOptions(
-                    width: double.infinity,
-                    height: 50.0,
-                    padding: const EdgeInsetsDirectional.fromSTEB(
-                      0.0,
-                      0.0,
-                      0.0,
-                      0.0,
-                    ),
-                    iconPadding: const EdgeInsetsDirectional.fromSTEB(
-                      0.0,
-                      0.0,
-                      0.0,
-                      0.0,
-                    ),
-                    color: FlutterFlowTheme.of(context).primary,
-                    textStyle: FlutterFlowTheme.of(context).titleMedium
-                        .override(
-                          fontFamily: GoogleFonts.inter().fontFamily,
-                          color: Colors.white,
-                        ),
-                    elevation: 3.0,
-                    borderRadius: BorderRadius.circular(8.0),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsetsDirectional.fromSTEB(
-                    0.0,
-                    16.0,
-                    0.0,
-                    0.0,
-                  ),
+                  padding: const EdgeInsets.only(left: 30),
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(
-                        'Belum punya akun?',
-                        style: FlutterFlowTheme.of(context).bodyMedium,
-                      ),
-                      TextButton(
-                        onPressed: () {
-                          context.pushNamed(AppRoutes.register);
-                        },
-                        child: Text(
-                          'Daftar Sekarang',
-                          style: FlutterFlowTheme.of(context).bodyMedium
-                              .override(
-                                fontFamily: GoogleFonts.inter().fontFamily,
-                                color: FlutterFlowTheme.of(context).primary,
-                                fontWeight: FontWeight.bold,
-                              ),
-                        ),
+                      Image.network(
+                        'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/news-app-mq22f9/assets/zkr1nait25m0/Logo.png',
+                        width: 120,
+                        height: 30,
+                        fit: BoxFit.cover,
                       ),
                     ],
+                  ),
+                ),
+                const SizedBox(height: 40),
+                Padding(
+                  padding: const EdgeInsetsDirectional.fromSTEB(24, 24, 24, 24),
+                  child: Form(
+                    key: _formKey,
+                    autovalidateMode: AutovalidateMode.disabled,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        Text(
+                          'Welcome Back!',
+                          style: textTheme.headlineLarge?.copyWith(
+                            fontWeight: FontWeight.bold,
+                            color: colorScheme.onSurface,
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsetsDirectional.fromSTEB(
+                            0,
+                            4,
+                            0,
+                            0,
+                          ),
+                          child: Text(
+                            'Isi detail Anda di bawah ini.',
+                            style: textTheme.bodyMedium?.copyWith(
+                              color: colorScheme.onSurfaceVariant,
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsetsDirectional.fromSTEB(
+                            0,
+                            16,
+                            0,
+                            0,
+                          ),
+                          child: TextFormField(
+                            controller: _emailController,
+                            obscureText: false,
+                            keyboardType: TextInputType.emailAddress,
+                            decoration: InputDecoration(
+                              labelText: 'Alamat Email',
+                              hintText: 'Masukkan email Anda...',
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: colorScheme.outline,
+                                  width: 2,
+                                ),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: colorScheme.primary,
+                                  width: 2,
+                                ),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              errorBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: colorScheme.error,
+                                  width: 2,
+                                ),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              focusedErrorBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: colorScheme.error,
+                                  width: 2,
+                                ),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              filled: true,
+                              fillColor: colorScheme.surfaceContainerHighest,
+                              contentPadding:
+                                  const EdgeInsetsDirectional.fromSTEB(
+                                    16,
+                                    24,
+                                    0,
+                                    24,
+                                  ),
+                            ),
+                            style: textTheme.bodyLarge,
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Email tidak boleh kosong';
+                              }
+                              return null;
+                            },
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsetsDirectional.fromSTEB(
+                            0,
+                            16,
+                            0,
+                            0,
+                          ),
+                          child: TextFormField(
+                            controller: _passwordController,
+                            obscureText: !passwordVisibility,
+                            decoration: InputDecoration(
+                              labelText: 'Kata Sandi',
+                              hintText: 'Masukkan kata sandi Anda...',
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: colorScheme.outline,
+                                  width: 2,
+                                ),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: colorScheme.primary,
+                                  width: 2,
+                                ),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              errorBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: colorScheme.error,
+                                  width: 2,
+                                ),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              focusedErrorBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: colorScheme.error,
+                                  width: 2,
+                                ),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              filled: true,
+                              fillColor: colorScheme.surfaceContainerHighest,
+                              contentPadding:
+                                  const EdgeInsetsDirectional.fromSTEB(
+                                    16,
+                                    24,
+                                    0,
+                                    24,
+                                  ),
+                              suffixIcon: InkWell(
+                                onTap: () => setState(
+                                  () =>
+                                      passwordVisibility = !passwordVisibility,
+                                ),
+                                focusNode: FocusNode(skipTraversal: true),
+                                child: Icon(
+                                  passwordVisibility
+                                      ? Icons.visibility_outlined
+                                      : Icons.visibility_off_outlined,
+                                  color: colorScheme.onSurfaceVariant,
+                                  size: 22,
+                                ),
+                              ),
+                            ),
+                            style: textTheme.bodyLarge,
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Kata sandi tidak boleh kosong';
+                              }
+                              return null;
+                            },
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsetsDirectional.fromSTEB(
+                            0,
+                            24,
+                            0,
+                            0,
+                          ),
+                          child: ElevatedButton(
+                            onPressed: authProvider.isLoading
+                                ? null
+                                : _handleLogin, // Panggil _handleLogin
+                            style: ElevatedButton.styleFrom(
+                              minimumSize: const Size(double.infinity, 50),
+                              backgroundColor: colorScheme.primary,
+                              foregroundColor: colorScheme.onPrimary,
+                              elevation: 2,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8.0),
+                              ),
+                            ),
+                            child: Text(
+                              authProvider.isLoading
+                                  ? 'Memuat...'
+                                  : 'Login', // Tampilkan teks loading
+                              style: textTheme.titleMedium?.copyWith(
+                                color: colorScheme.onPrimary,
+                              ),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsetsDirectional.fromSTEB(
+                            0,
+                            24,
+                            0,
+                            0,
+                          ),
+                          child: TextButton(
+                            onPressed: () async {
+                              Navigator.pushNamed(context, AppRoutes.register);
+                            },
+                            child: Text(
+                              'Belum punya akun? Daftar Sekarang',
+                              style: textTheme.bodyLarge?.copyWith(
+                                color: colorScheme.primary,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ],

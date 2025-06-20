@@ -1,10 +1,21 @@
+// lib/oboarding/introduction3.dart
+// PENTING: Mohon pertimbangkan dan lakukan langkah-langkah untuk memindahkan berkas ini
+// ke jalur yang benar dan konsisten seperti: lib/src/views/onboarding/introduction3.dart
+// dan hapus berkas duplikat/salah jalur lainnya.
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:news_app/views/auth/login_screen.dart';
+// Baris ini akan menjadi usang jika Anda menggunakan AppRoutes untuk navigasi,
+// dan dapat dihapus setelah Anda mengimplementasikan navigasi dengan AppRoutes.
+// import 'package:app_9news/src/views/auth/login_screen.dart';
+
+import 'package:app_9news/src/configs/app_routes.dart'; // <--- PASTIKAN INI DIIMPOR!
 
 class Introduction3 extends StatelessWidget {
   const Introduction3({super.key});
 
+  // Nama rute statis ini mungkin tidak lagi diperlukan di sini
+  // karena rute dikelola di AppRoutes. Anda bisa menghapusnya atau mengabaikannya.
   static const String routeName = 'introduction3';
   static const String routePath = '/introduction3';
 
@@ -24,7 +35,8 @@ class Introduction3 extends StatelessWidget {
       child: Row(
         children: [
           const SizedBox(width: 20),
-          Icon(icon, color: Theme.of(context).primaryColor, size: 28),
+          // Gunakan colorScheme.primary untuk warna tema utama
+          Icon(icon, color: Theme.of(context).colorScheme.primary, size: 28),
           const SizedBox(width: 20),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -120,10 +132,13 @@ class Introduction3 extends StatelessWidget {
                   height: 40,
                   child: ElevatedButton(
                     onPressed: () {
-                      Navigator.pushNamed(context, LoginScreen().routeName);
+                      // PERBAIKAN PENTING DI SINI: Gunakan AppRoutes.login
+                      Navigator.pushNamed(context, AppRoutes.login);
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Theme.of(context).primaryColor,
+                      backgroundColor: Theme.of(
+                        context,
+                      ).colorScheme.primary, // Gunakan colorScheme
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),

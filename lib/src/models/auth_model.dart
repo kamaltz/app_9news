@@ -1,27 +1,31 @@
-class AuthModel {
-  final bool success;
-  final String message;
-  final UserData data;
+// lib/src/models/auth_model.dart
 
-  AuthModel({required this.success, required this.message, required this.data});
+class AuthModel {
+  final UserData data; // Asumsikan respons API memiliki kunci 'data'
+
+  AuthModel({required this.data});
 
   factory AuthModel.fromJson(Map<String, dynamic> json) {
     return AuthModel(
-      success: json['success'],
-      message: json['message'],
-      data: UserData.fromJson(json['data']),
+      data: UserData.fromJson(
+        json,
+      ), // Menguraikan seluruh JSON sebagai UserData
     );
   }
 }
 
 class UserData {
-  final User user;
   final String token;
+  final User user;
 
-  UserData({required this.user, required this.token});
+  UserData({required this.token, required this.user});
 
   factory UserData.fromJson(Map<String, dynamic> json) {
-    return UserData(user: User.fromJson(json['user']), token: json['token']);
+    return UserData(
+      // Asumsikan token dan data user berada langsung di root response
+      token: json['token'] as String,
+      user: User.fromJson(json['user'] as Map<String, dynamic>),
+    );
   }
 }
 
@@ -36,17 +40,17 @@ class User {
     required this.id,
     required this.email,
     required this.name,
-    required this.title,
-    required this.avatar,
+    this.title = '',
+    this.avatar = '',
   });
 
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
-      id: json['id'],
-      email: json['email'],
-      name: json['name'],
-      title: json['title'],
-      avatar: json['avatar'],
+      id: json['id'] as String,
+      email: json['email'] as String,
+      name: json['name'] as String,
+      title: json['title'] as String? ?? '', // Menangani nilai null
+      avatar: json['avatar'] as String? ?? '', // Menangani nilai null
     );
   }
 }

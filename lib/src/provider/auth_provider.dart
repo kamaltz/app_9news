@@ -1,19 +1,25 @@
+// lib/src/provider/auth_provider.dart
+
 import 'package:flutter/material.dart';
-import 'package:app_9news/src/controller/auth_controller.dart';
+// UBAH JALUR IMPOR INI: Sesuaikan dengan nama berkas baru
+import 'package:app_9news/src/controller/auth_service.dart'; // <--- Ubah dari auth_controller.dart
 import 'package:app_9news/src/models/auth_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthProvider extends ChangeNotifier {
-  final AuthService _authService = AuthService();
+  final AuthService _authService = AuthService(); // Sekarang ini akan dikenali
+
   bool _isLoading = false;
   bool _isAuthenticated = false;
   User? _currentUser;
   String? _token;
+  String? _errorMessage;
 
   bool get isLoading => _isLoading;
   bool get isAuthenticated => _isAuthenticated;
   User? get currentUser => _currentUser;
   String? get token => _token;
+  String? get errorMessage => _errorMessage;
 
   Future<void> initAuth() async {
     final prefs = await SharedPreferences.getInstance();
@@ -38,19 +44,19 @@ class AuthProvider extends ChangeNotifier {
           avatar: userAvatar ?? '',
         );
       }
-
-      notifyListeners();
     }
+    notifyListeners();
   }
 
   Future<bool> login(String email, String password) async {
     _isLoading = true;
+    _errorMessage = null;
     notifyListeners();
 
     try {
-      final response = await _authService.login(email, password);
+      final authModel = await _authService.login(email, password);
 
-      await _saveAuthData(response.data);
+      await _saveAuthData(authModel.data);
 
       _isAuthenticated = true;
       _isLoading = false;
@@ -58,6 +64,10 @@ class AuthProvider extends ChangeNotifier {
       return true;
     } catch (e) {
       _isLoading = false;
+      _isAuthenticated = false;
+      _token = null;
+      _currentUser = null;
+      _errorMessage = e.toString().replaceFirst('Exception: ', '');
       notifyListeners();
       return false;
     }
@@ -65,21 +75,23 @@ class AuthProvider extends ChangeNotifier {
 
   Future<bool> register(Map<String, dynamic> userData) async {
     _isLoading = true;
+    _errorMessage = null;
     notifyListeners();
 
     try {
       await _authService.register(userData);
       _isLoading = false;
+      _errorMessage = null;
       notifyListeners();
       return true;
     } catch (e) {
       _isLoading = false;
+      _errorMessage = e.toString().replaceFirst('Exception: ', '');
       notifyListeners();
       return false;
     }
   }
 
-  // Logout
   Future<void> logout() async {
     _isLoading = true;
     notifyListeners();
@@ -96,6 +108,7 @@ class AuthProvider extends ChangeNotifier {
     _currentUser = null;
     _token = null;
     _isLoading = false;
+    _errorMessage = null;
     notifyListeners();
   }
 
