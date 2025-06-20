@@ -1,21 +1,11 @@
-// lib/oboarding/introduction3.dart
-// PENTING: Mohon pertimbangkan dan lakukan langkah-langkah untuk memindahkan berkas ini
-// ke jalur yang benar dan konsisten seperti: lib/src/views/onboarding/introduction3.dart
-// dan hapus berkas duplikat/salah jalur lainnya.
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-// Baris ini akan menjadi usang jika Anda menggunakan AppRoutes untuk navigasi,
-// dan dapat dihapus setelah Anda mengimplementasikan navigasi dengan AppRoutes.
-// import 'package:app_9news/src/views/auth/login_screen.dart';
-
-import 'package:app_9news/src/configs/app_routes.dart'; // <--- PASTIKAN INI DIIMPOR!
+import 'package:flutter_screenutil/flutter_screenutil.dart'; // Import ini
+import 'package:app_9news/src/configs/app_routes.dart';
 
 class Introduction3 extends StatelessWidget {
   const Introduction3({super.key});
 
-  // Nama rute statis ini mungkin tidak lagi diperlukan di sini
-  // karena rute dikelola di AppRoutes. Anda bisa menghapusnya atau mengabaikannya.
   static const String routeName = 'introduction3';
   static const String routePath = '/introduction3';
 
@@ -26,27 +16,38 @@ class Introduction3 extends StatelessWidget {
     required String description,
   }) {
     return Container(
-      width: 288.6,
-      height: 68,
+      width: 288.6.w, // Responsif lebar
+      height: 68.h, // Responsif tinggi
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.surface,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(12.r), // Responsif radius
       ),
       child: Row(
         children: [
-          const SizedBox(width: 20),
-          // Gunakan colorScheme.primary untuk warna tema utama
-          Icon(icon, color: Theme.of(context).colorScheme.primary, size: 28),
-          const SizedBox(width: 20),
+          SizedBox(width: 20.w), // Responsif lebar
+          Icon(
+            icon,
+            color: Theme.of(context).colorScheme.primary,
+            size: 28.r,
+          ), // Responsif ukuran ikon
+          SizedBox(width: 20.w), // Responsif lebar
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
                 title,
-                style: GoogleFonts.inter(fontWeight: FontWeight.bold),
+                style: GoogleFonts.inter(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 14.sp, // Responsif ukuran font
+                ),
               ),
-              Text(description, style: GoogleFonts.inter()),
+              Text(
+                description,
+                style: GoogleFonts.inter(
+                  fontSize: 12.sp, // Responsif ukuran font
+                ),
+              ),
             ],
           ),
         ],
@@ -64,45 +65,49 @@ class Introduction3 extends StatelessWidget {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                const SizedBox(height: 10),
+                SizedBox(height: 10.h), // Responsif tinggi
                 Padding(
-                  padding: const EdgeInsets.only(left: 30),
+                  padding: EdgeInsets.only(left: 30.w), // Responsif lebar
                   child: Row(
                     children: [
-                      Image.network(
-                        'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/news-app-mq22f9/assets/zkr1nait25m0/Logo.png',
-                        width: 120,
-                        height: 30,
+                      Image.asset(
+                        'assets/images/Logo.png',
+                        width: 120.w, // Responsif lebar
+                        height: 30.h, // Responsif tinggi
                         fit: BoxFit.cover,
                       ),
                     ],
                   ),
                 ),
-                const SizedBox(height: 40),
-                Image.network(
-                  'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/news-app-mq22f9/assets/doy7c0x3ylpr/introduction3.png',
-                  width: 200,
-                  height: 200,
+                SizedBox(height: 40.h), // Responsif tinggi
+                Image.asset(
+                  'assets/images/introduction3.png',
+                  width: 200.w, // Responsif lebar
+                  height: 200.h, // Responsif tinggi
                   fit: BoxFit.cover,
                 ),
-                const SizedBox(height: 10),
+                SizedBox(height: 10.h), // Responsif tinggi
                 Text(
                   'Selamat Datang di 9News',
                   style: GoogleFonts.inter(
                     fontWeight: FontWeight.bold,
-                    fontSize: 18,
+                    fontSize: 18.sp, // Responsif ukuran font
                   ),
                 ),
-                const SizedBox(height: 10),
+                SizedBox(height: 10.h), // Responsif tinggi
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 40),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 40.w,
+                  ), // Responsif lebar padding
                   child: Text(
                     'Gerbang pribadi Anda menuju berita terkini dan kisah yang sedang tren dari seluruh dunia, dirancang khusus untuk Anda.',
                     textAlign: TextAlign.justify,
-                    style: GoogleFonts.inter(),
+                    style: GoogleFonts.inter(
+                      fontSize: 16.sp, // Responsif ukuran font
+                    ),
                   ),
                 ),
-                const SizedBox(height: 25),
+                SizedBox(height: 25.h), // Responsif tinggi
                 _featureCard(
                   context: context,
                   icon: Icons.flash_on_outlined,
@@ -110,7 +115,7 @@ class Introduction3 extends StatelessWidget {
                   description:
                       'Tetap update dengan notifikasi\nberita terkini secara instan.',
                 ),
-                const SizedBox(height: 15),
+                SizedBox(height: 15.h), // Responsif tinggi
                 _featureCard(
                   context: context,
                   icon: Icons.star,
@@ -118,7 +123,7 @@ class Introduction3 extends StatelessWidget {
                   description:
                       'Cerita yang disesuaikan\n berdasarkan minat Anda.',
                 ),
-                const SizedBox(height: 15),
+                SizedBox(height: 15.h), // Responsif tinggi
                 _featureCard(
                   context: context,
                   icon: Icons.sort_by_alpha,
@@ -126,30 +131,32 @@ class Introduction3 extends StatelessWidget {
                   description:
                       'Akses berita dari sumber\ntepercaya di seluruh dunia.',
                 ),
-                const SizedBox(height: 20),
+                SizedBox(height: 20.h), // Responsif tinggi
                 SizedBox(
-                  width: 285,
-                  height: 40,
+                  width: 285.w, // Responsif lebar
+                  height: 40.h, // Responsif tinggi
                   child: ElevatedButton(
                     onPressed: () {
-                      // PERBAIKAN PENTING DI SINI: Gunakan AppRoutes.login
                       Navigator.pushNamed(context, AppRoutes.login);
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Theme.of(
-                        context,
-                      ).colorScheme.primary, // Gunakan colorScheme
+                      backgroundColor: Theme.of(context).colorScheme.primary,
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
+                        borderRadius: BorderRadius.circular(
+                          10.r,
+                        ), // Responsif radius
                       ),
                     ),
                     child: Text(
                       'Buka Segera',
-                      style: GoogleFonts.interTight(color: Colors.white),
+                      style: GoogleFonts.interTight(
+                        color: Colors.white,
+                        fontSize: 18.sp, // Responsif ukuran font
+                      ),
                     ),
                   ),
                 ),
-                const SizedBox(height: 60),
+                SizedBox(height: 60.h), // Responsif tinggi
               ],
             ),
           ),
