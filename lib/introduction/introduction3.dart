@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../auth/loginpage/login_page.dart';
 
 class Introduction3 extends StatelessWidget {
   const Introduction3({super.key});
