@@ -1,126 +1,124 @@
+// lib/src/views/onboarding/introduction1.dart
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart'; // Import ini
 import 'package:app_9news/src/configs/app_routes.dart';
 
 class Introduction1 extends StatelessWidget {
   const Introduction1({super.key});
 
-  static const String routeName = 'introduction1';
-  static const String routePath = '/introduction1';
-
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    // isMobile check mungkin masih berguna untuk penyesuaian tata letak yang lebih kompleks,
-    // tetapi untuk padding sederhana, .w sudah mencukupi.
-    // final isMobile = MediaQuery.of(context).size.width < 600;
+    final screenHeight = MediaQuery.of(context).size.height;
+    final screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      backgroundColor: theme.colorScheme.surface,
+      backgroundColor: Theme.of(context).colorScheme.surface,
       body: SafeArea(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            SizedBox(height: 100.h), // Responsif tinggi
-            Image.network(
-              'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/news-app-mq22f9/assets/xrvwhqxnuxh9/introduction1.png',
-              width: 323.8.w, // Responsif lebar
-              height: 302.27.h, // Responsif tinggi
-              fit: BoxFit.cover,
-            ),
-            SizedBox(height: 10.h), // Responsif tinggi
-            Padding(
-              // Gunakan .w untuk padding horizontal
-              padding: EdgeInsets.symmetric(horizontal: 25.w),
-              child: Text(
-                'Jangan sampai ketinggalan berita di mana pun!',
-                textAlign: TextAlign.start,
-                style: GoogleFonts.inter(
-                  fontWeight: FontWeight.bold,
-                  color: theme.primaryColor,
-                  fontSize: 20.sp, // Responsif ukuran font
+        // --- PERUBAHAN DI SINI: Membungkus dengan Column utama ---
+        child: Padding(
+          padding: const EdgeInsets.all(24.0), // Padding untuk seluruh layar
+          child: Column(
+            children: [
+              // Konten Atas (Logo, Gambar, Teks)
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SizedBox(height: screenHeight * 0.05),
+                      Image.asset(
+                        'assets/images/introduction1.png',
+                        width: screenWidth * 0.55,
+                        height: screenWidth * 0.55,
+                        fit: BoxFit.contain,
+                      ),
+                      const SizedBox(height: 24),
+                      Text(
+                        'Selamat Datang di 9News',
+                        style: GoogleFonts.inter(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: Text(
+                          'Gerbang pribadi Anda menuju berita terkini dan kisah yang sedang tren dari seluruh dunia, dirancang khusus untuk Anda.',
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.inter(
+                            fontSize: 15,
+                            color: Colors.grey[600],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-            SizedBox(height: 10.h), // Responsif tinggi
-            Padding(
-              // Gunakan .w untuk padding horizontal
-              padding: EdgeInsets.symmetric(horizontal: 25.w),
-              child: Text(
-                'Dapatkan pemberitahuan langsung untuk berita terkini dan berita yang sedang tren, di mana pun Anda berada. 9News memberikan informasi yang Anda butuhkan.',
-                textAlign: TextAlign
-                    .center, // Ubah ke center agar lebih rapih untuk intro
-                style: GoogleFonts.inter(
-                  fontSize: 16.sp, // Responsif ukuran font
-                ),
-              ),
-            ),
-            const Spacer(),
-            Padding(
-              padding: EdgeInsets.only(
-                bottom: 20.h,
-              ), // Responsif tinggi padding
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+
+              // Bagian Bawah (Tombol)
+              Row(
                 children: [
-                  OutlinedButton(
-                    onPressed: () {
-                      Navigator.pushNamed(context, AppRoutes.login);
-                    },
-                    style: OutlinedButton.styleFrom(
-                      side: BorderSide(color: theme.primaryColor),
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 16.w, // Responsif lebar padding
-                        vertical: 10.h, // Responsif tinggi padding
-                      ),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(
-                          10.r,
-                        ), // Responsif radius
-                      ),
-                    ),
-                    child: Text(
-                      'Lewati',
-                      style: GoogleFonts.interTight(
-                        fontWeight: FontWeight.bold,
-                        color: theme.primaryColor,
-                        fontSize: 14.sp, // Responsif ukuran font
+                  // Tombol Lewati (Skip)
+                  Expanded(
+                    child: SizedBox(
+                      height: 48,
+                      child: OutlinedButton(
+                        onPressed: () {
+                          Navigator.pushNamed(context, AppRoutes.introduction3);
+                        },
+                        style: OutlinedButton.styleFrom(
+                          foregroundColor: Theme.of(context).colorScheme.primary,
+                          side: BorderSide(
+                            color: Theme.of(context).colorScheme.primary,
+                            width: 1.5,
+                          ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                        ),
+                        child: Text(
+                          'Lewati',
+                          style: GoogleFonts.inter(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                       ),
                     ),
                   ),
-                  SizedBox(width: 150.w), // Responsif lebar
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.pushNamed(context, AppRoutes.introduction2);
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: theme.primaryColor,
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 16.w, // Responsif lebar padding
-                        vertical: 10.h, // Responsif tinggi padding
-                      ),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(
-                          10.r,
-                        ), // Responsif radius
-                      ),
-                    ),
-                    child: Text(
-                      'Lanjutkan',
-                      style: GoogleFonts.interTight(
-                        color: Colors.white,
-                        fontSize: 14.sp, // Responsif ukuran font
+                  const SizedBox(width: 16),
+                  // Tombol Selanjutnya (Next)
+                  Expanded(
+                    child: SizedBox(
+                      height: 48,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          Navigator.pushNamed(context, AppRoutes.introduction2);
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Color(0X4F46E5),
+                          foregroundColor: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                        ),
+                        child: Text(
+                          'Selanjutnya',
+                          style: GoogleFonts.inter(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                       ),
                     ),
                   ),
                 ],
               ),
-            ),
-            // SizedBox(height: 20.h), // Opsional: padding paling bawah
-          ],
+            ],
+          ),
         ),
+        // ----------------------------------------------------
       ),
     );
   }
