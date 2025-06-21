@@ -24,7 +24,7 @@ class SplashScreen extends StatelessWidget {
                 height: 120.h, // Responsif tinggi
                 fit: BoxFit.cover,
               ),
-              SizedBox(height: 24.h), // Responsif tinggi
+              SizedBox(height: 25.h), // Responsif tinggi
               Text(
                 'Selamat Datang',
                 style: GoogleFonts.inter(
@@ -33,7 +33,7 @@ class SplashScreen extends StatelessWidget {
                   fontSize: 24.sp, // Responsif ukuran font
                 ),
               ),
-              SizedBox(height: 12.h), // Responsif tinggi
+              SizedBox(height: 10.h), // Responsif tinggi
               Padding(
                 padding: EdgeInsets.symmetric(
                   horizontal: 30.w,
@@ -55,8 +55,8 @@ class SplashScreen extends StatelessWidget {
               ),
               SizedBox(height: 60.h), // Responsif tinggi
               SizedBox(
-                width: 200.w, // Responsif lebar
-                height: 90.h, // Responsif tinggi
+                width: 150.w, // Responsif lebar
+                height: 70.h, // Responsif tinggi
                 child: ElevatedButton(
                   onPressed: () {
                     Navigator.pushNamed(context, AppRoutes.introduction1);
