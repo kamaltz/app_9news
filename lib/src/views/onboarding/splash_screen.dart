@@ -18,16 +18,17 @@ class SplashScreen extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.max,
             children: [
-              SizedBox(height: 150.h), // Responsif tinggi
+              SizedBox(height: 100.h), // Responsif tinggi
               Image.network(
                 'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/news-app-mq22f9/assets/zkr1nait25m0/Logo.png',
-                height: 80.h, // Responsif tinggi
+                height: 120.h, // Responsif tinggi
                 fit: BoxFit.cover,
               ),
               SizedBox(height: 24.h), // Responsif tinggi
               Text(
                 'Selamat Datang',
                 style: GoogleFonts.inter(
+                  color: Color(0xFF5A4FCF),
                   fontWeight: FontWeight.bold,
                   fontSize: 24.sp, // Responsif ukuran font
                 ),
@@ -46,22 +47,22 @@ class SplashScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(height: 50.h), // Responsif tinggi
+              SizedBox(height: 90.h), // Responsif tinggi
               Image.network(
                 'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/news-app-mq22f9/assets/4pt5hbqcnibz/Dual_Ring%401x-1.5s-200px-200px_(1).gif',
-                height: 50.h, // Responsif tinggi
-                width: 50.w, // Responsif lebar
+                height: 120.h, // Responsif tinggi
+                width: 120.w, // Responsif lebar
               ),
-              SizedBox(height: 50.h), // Responsif tinggi
+              SizedBox(height: 60.h), // Responsif tinggi
               SizedBox(
                 width: 200.w, // Responsif lebar
-                height: 50.h, // Responsif tinggi
+                height: 90.h, // Responsif tinggi
                 child: ElevatedButton(
                   onPressed: () {
                     Navigator.pushNamed(context, AppRoutes.introduction1);
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Theme.of(context).colorScheme.primary,
+                    backgroundColor: Color(0xFF5A4FCF),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(
                         10.r,

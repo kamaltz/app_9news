@@ -134,13 +134,13 @@ class Introduction3 extends StatelessWidget {
                 SizedBox(height: 20.h), // Responsif tinggi
                 SizedBox(
                   width: 285.w, // Responsif lebar
-                  height: 40.h, // Responsif tinggi
+                  height: 60.h, // Responsif tinggi
                   child: ElevatedButton(
                     onPressed: () {
                       Navigator.pushNamed(context, AppRoutes.login);
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Theme.of(context).colorScheme.primary,
+                      backgroundColor: Color(0xFF5A4FCF),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(
                           10.r,
@@ -150,6 +150,7 @@ class Introduction3 extends StatelessWidget {
                     child: Text(
                       'Buka Segera',
                       style: GoogleFonts.interTight(
+                        fontWeight: FontWeight.bold,
                         color: Colors.white,
                         fontSize: 18.sp, // Responsif ukuran font
                       ),

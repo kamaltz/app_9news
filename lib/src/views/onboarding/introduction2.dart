@@ -31,13 +31,13 @@ class Introduction2 extends StatelessWidget {
               ),
               SizedBox(height: 30.h), // Responsif tinggi
               Padding(
-                padding: EdgeInsets.only(right: 30.w), // Responsif lebar
+                padding: EdgeInsets.only(right: 20.w), // Responsif lebar
                 child: Text(
                   'Informasi yang Dapat Diandalkan',
                   textAlign: TextAlign.start,
                   style: GoogleFonts.inter(
                     fontWeight: FontWeight.bold,
-                    color: theme.primaryColor,
+                    color: Color(0xFF5A4FCF),
                     fontSize: 20.sp, // Responsif ukuran font
                   ),
                 ),
@@ -54,60 +54,62 @@ class Introduction2 extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(height: 50.h), // Responsif tinggi
+              SizedBox(height: 90.h), // Responsif tinggi
               Padding(
-                padding: EdgeInsets.only(
-                  bottom: 20.h,
-                ), // Responsif tinggi padding
+                padding: EdgeInsets.only(bottom: 20.h),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    OutlinedButton(
-                      onPressed: () {
-                        Navigator.pushNamed(context, AppRoutes.introduction3);
-                      },
-                      style: OutlinedButton.styleFrom(
-                        side: BorderSide(color: theme.primaryColor),
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 16.w, // Responsif lebar padding
-                          vertical: 10.h, // Responsif tinggi padding
+                    // Tombol Lewati
+                    SizedBox(
+                      width: 140.w,
+                      height: 50.h,
+                      child: OutlinedButton(
+                        onPressed: () {
+                          Navigator.pushNamed(context, AppRoutes.introduction3);
+                        },
+                        style: OutlinedButton.styleFrom(
+                          side:
+                              BorderSide(color: Color(0xFF5A4FCF), width: 1.5),
+                          backgroundColor: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.r),
+                          ),
                         ),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(
-                            10.r,
-                          ), // Responsif radius
-                        ),
-                      ),
-                      child: Text(
-                        'Lewati',
-                        style: GoogleFonts.interTight(
-                          color: theme.primaryColor,
-                          fontSize: 14.sp, // Responsif ukuran font
+                        child: Text(
+                          'Lewati',
+                          style: GoogleFonts.inter(
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFF5A4FCF),
+                            fontSize: 16.sp,
+                          ),
                         ),
                       ),
                     ),
-                    SizedBox(width: 170.w), // Responsif lebar
-                    ElevatedButton(
-                      onPressed: () {
-                        Navigator.pushNamed(context, AppRoutes.introduction3);
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: theme.primaryColor,
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 16.w, // Responsif lebar padding
-                          vertical: 10.h, // Responsif tinggi padding
+
+                    SizedBox(width: 20.w), // Jarak antar tombol
+
+                    // Tombol Lanjut
+                    SizedBox(
+                      width: 140.w,
+                      height: 50.h,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          Navigator.pushNamed(context, AppRoutes.introduction3);
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Color(0xFF5A4FCF),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.r),
+                          ),
                         ),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(
-                            10.r,
-                          ), // Responsif radius
-                        ),
-                      ),
-                      child: Text(
-                        'Lanjutkan',
-                        style: GoogleFonts.interTight(
-                          color: Colors.white,
-                          fontSize: 14.sp, // Responsif ukuran font
+                        child: Text(
+                          'Lanjutkan',
+                          style: GoogleFonts.inter(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                            fontSize: 16.sp,
+                          ),
                         ),
                       ),
                     ),
