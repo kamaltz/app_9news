@@ -115,7 +115,7 @@ class Introduction3 extends StatelessWidget {
                           context, AppRoutes.login, (route) => false);
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Theme.of(context).colorScheme.primary,
+                      backgroundColor: Color.fromARGB(255, 78, 70, 229),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),

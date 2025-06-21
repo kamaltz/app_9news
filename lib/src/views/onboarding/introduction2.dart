@@ -98,7 +98,7 @@ class Introduction2 extends StatelessWidget {
                           Navigator.pushNamed(context, AppRoutes.introduction3);
                         },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Color(0X4F46E5),
+                          backgroundColor: Color.fromARGB(255, 78, 70, 229),
                           foregroundColor: Colors.white,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(12),
