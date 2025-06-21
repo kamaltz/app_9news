@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:app_9news/src/provider/news_provider.dart';
-import 'package:app_9news/src/configs/app_routes.dart';
-import 'package:app_9news/src/views/homepage.dart'; // Impor LatestNewsCard
+// Impor LatestNewsCard
 import 'package:app_9news/src/widgets/news_cards.dart';
 
 class BookmarksScreen extends StatelessWidget {

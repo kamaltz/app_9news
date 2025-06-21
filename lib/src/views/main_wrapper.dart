@@ -8,7 +8,8 @@ import 'package:app_9news/src/views/explore/explore_screen.dart';
 import 'package:app_9news/src/views/bookmarks/bookmarks_screen.dart';
 import 'package:app_9news/src/views/profile/profile_screen.dart';
 
-// Kunci global untuk mengakses state MainWrapper dari luar
+// Kunci global untuk mengakses state MainWrapper dari luar (misal: dari homepage)
+// Kunci ini akan menghubungkan tombol di homepage dengan fungsi pindah tab di sini.
 final mainWrapperKey = GlobalKey<_MainWrapperState>();
 
 class MainWrapper extends StatefulWidget {
@@ -28,16 +29,21 @@ class _MainWrapperState extends State<MainWrapper> {
     ProfileScreen(),
   ];
 
+  // Fungsi publik yang bisa dipanggil melalui GlobalKey untuk berpindah tab
   void goToTab(int index) {
-    if (_selectedIndex == index) return;
+    if (_selectedIndex == index) return; // Hindari build ulang jika tab sama
 
-    if (index == 1)
+    // Muat data yang relevan sebelum berpindah tab
+    if (index == 1) {
       Provider.of<NewsProvider>(context, listen: false).fetchExploreArticles();
-    if (index == 2)
+    }
+    if (index == 2) {
       Provider.of<NewsProvider>(context, listen: false)
           .fetchBookmarkedArticles();
-    if (index == 3)
+    }
+    if (index == 3) {
       Provider.of<NewsProvider>(context, listen: false).fetchUserArticles();
+    }
 
     setState(() {
       _selectedIndex = index;
@@ -47,7 +53,7 @@ class _MainWrapperState extends State<MainWrapper> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: mainWrapperKey,
+      key: mainWrapperKey, // Gunakan GlobalKey di sini
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 1,
@@ -55,7 +61,7 @@ class _MainWrapperState extends State<MainWrapper> {
             height: 40, fit: BoxFit.contain),
         centerTitle: false,
         actions: [
-          if (_selectedIndex == 0)
+          if (_selectedIndex == 0) // Hanya tampilkan di tab Beranda
             IconButton(
               icon: const Icon(Icons.refresh, color: Colors.black54),
               onPressed: () {
@@ -99,7 +105,7 @@ class _MainWrapperState extends State<MainWrapper> {
         unselectedItemColor: Colors.grey,
         showUnselectedLabels: true,
         type: BottomNavigationBarType.fixed,
-        onTap: goToTab,
+        onTap: goToTab, // Panggil fungsi goToTab saat tab ditekan
       ),
     );
   }

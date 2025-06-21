@@ -74,11 +74,11 @@ class _CreateEditArticleScreenState extends State<CreateEditArticleScreen> {
       if (mounted && success) {
         Navigator.pop(context);
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Artikel berhasil disimpan!')),
+          const SnackBar(content: Text('Artikel berhasil disimpan!')),
         );
       } else if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
+          const SnackBar(
               content: Text('Gagal menyimpan artikel.'),
               backgroundColor: Colors.red),
         );
@@ -93,7 +93,7 @@ class _CreateEditArticleScreenState extends State<CreateEditArticleScreen> {
         title: Text(_isEditing ? 'Edit Artikel' : 'Buat Artikel Baru'),
         actions: [
           IconButton(
-            icon: Icon(Icons.save),
+            icon: const Icon(Icons.save),
             onPressed: _submitForm,
           )
         ],
@@ -106,36 +106,36 @@ class _CreateEditArticleScreenState extends State<CreateEditArticleScreen> {
             children: [
               TextFormField(
                 controller: _titleController,
-                decoration: InputDecoration(labelText: 'Judul'),
+                decoration: const InputDecoration(labelText: 'Judul'),
                 validator: (value) =>
                     value!.isEmpty ? 'Judul tidak boleh kosong' : null,
               ),
               TextFormField(
                 controller: _categoryController,
-                decoration: InputDecoration(labelText: 'Kategori'),
+                decoration: const InputDecoration(labelText: 'Kategori'),
                 validator: (value) =>
                     value!.isEmpty ? 'Kategori tidak boleh kosong' : null,
               ),
               TextFormField(
                 controller: _readTimeController,
-                decoration:
-                    InputDecoration(labelText: 'Waktu Baca (e.g. 5 menit)'),
+                decoration: const InputDecoration(
+                    labelText: 'Waktu Baca (e.g. 5 menit)'),
               ),
               TextFormField(
                 controller: _imageUrlController,
-                decoration: InputDecoration(labelText: 'URL Gambar'),
+                decoration: const InputDecoration(labelText: 'URL Gambar'),
                 keyboardType: TextInputType.url,
                 validator: (value) =>
                     value!.isEmpty ? 'URL Gambar tidak boleh kosong' : null,
               ),
               TextFormField(
                 controller: _tagsController,
-                decoration:
-                    InputDecoration(labelText: 'Tags (pisahkan dengan koma)'),
+                decoration: const InputDecoration(
+                    labelText: 'Tags (pisahkan dengan koma)'),
               ),
               TextFormField(
                 controller: _contentController,
-                decoration: InputDecoration(labelText: 'Konten Artikel'),
+                decoration: const InputDecoration(labelText: 'Konten Artikel'),
                 maxLines: 10,
                 keyboardType: TextInputType.multiline,
                 validator: (value) =>
@@ -145,8 +145,8 @@ class _CreateEditArticleScreenState extends State<CreateEditArticleScreen> {
               ElevatedButton(
                 onPressed: _submitForm,
                 style: ElevatedButton.styleFrom(
-                    minimumSize: Size(double.infinity, 50)),
-                child: Text('Simpan Artikel'),
+                    minimumSize: const Size(double.infinity, 50)),
+                child: const Text('Simpan Artikel'),
               ),
             ],
           ),

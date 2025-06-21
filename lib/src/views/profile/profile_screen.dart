@@ -26,8 +26,8 @@ class ProfileScreen extends StatelessWidget {
           Navigator.pushNamed(context, AppRoutes.createArticle,
               arguments: null);
         },
-        child: const Icon(Icons.add),
         tooltip: 'Buat Artikel Baru',
+        child: const Icon(Icons.add),
       ),
       body: Consumer<NewsProvider>(
         builder: (context, newsProvider, child) {

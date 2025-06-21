@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:app_9news/src/provider/news_provider.dart';
-import 'package:app_9news/src/views/homepage.dart'; // Impor untuk Lates
+// Impor untuk Lates
 import 'package:app_9news/src/widgets/news_cards.dart';
 
 class ExploreScreen extends StatefulWidget {

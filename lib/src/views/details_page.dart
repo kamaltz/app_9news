@@ -19,7 +19,7 @@ class _NewsDetailPageState extends State<NewsDetailPage> {
             Container(
               height: 250,
               width: double.infinity,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 image: DecorationImage(
                   image: NetworkImage(
                     'https://via.placeholder.com/400x250.png?text=MotoGP+News',
@@ -31,15 +31,15 @@ class _NewsDetailPageState extends State<NewsDetailPage> {
                 children: [
                   // Overlay hitam transparan
                   Container(
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       gradient: LinearGradient(
                         begin: Alignment.topCenter,
                         end: Alignment.bottomCenter,
                         colors: [
                           // Mengganti Colors.black.withOpacity(0.3) dengan Color heksadesimal
-                          const Color(0x4C000000), // Alpha 0x4C (~30% opacity)
+                          Color(0x4C000000), // Alpha 0x4C (~30% opacity)
                           // Mengganti Colors.black.withOpacity(0.7) dengan Color heksadesimal
-                          const Color(0xB3000000), // Alpha 0xB3 (~70% opacity)
+                          Color(0xB3000000), // Alpha 0xB3 (~70% opacity)
                         ],
                       ),
                     ),
@@ -52,9 +52,9 @@ class _NewsDetailPageState extends State<NewsDetailPage> {
                       onTap: () => Navigator.pop(context),
                       child: Container(
                         padding: const EdgeInsets.all(8),
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           // Mengganti Colors.black.withOpacity(0.5) dengan Color heksadesimal
-                          color: const Color(
+                          color: Color(
                             0x80000000,
                           ), // Alpha 0x80 (~50% opacity)
                           shape: BoxShape.circle,
@@ -75,9 +75,9 @@ class _NewsDetailPageState extends State<NewsDetailPage> {
                       children: [
                         Container(
                           padding: const EdgeInsets.all(8),
-                          decoration: BoxDecoration(
+                          decoration: const BoxDecoration(
                             // Mengganti Colors.black.withOpacity(0.5) dengan Color heksadesimal
-                            color: const Color(
+                            color: Color(
                               0x80000000,
                             ), // Alpha 0x80 (~50% opacity)
                             shape: BoxShape.circle,
@@ -91,9 +91,9 @@ class _NewsDetailPageState extends State<NewsDetailPage> {
                         const SizedBox(width: 8),
                         Container(
                           padding: const EdgeInsets.all(8),
-                          decoration: BoxDecoration(
+                          decoration: const BoxDecoration(
                             // Mengganti Colors.black.withOpacity(0.5) dengan Color heksadesimal
-                            color: const Color(
+                            color: Color(
                               0x80000000,
                             ), // Alpha 0x80 (~50% opacity)
                             shape: BoxShape.circle,
@@ -126,11 +126,11 @@ class _NewsDetailPageState extends State<NewsDetailPage> {
                     ),
                   ),
                   // Judul berita
-                  Positioned(
+                  const Positioned(
                     bottom: 16,
                     left: 16,
                     right: 16,
-                    child: const Text(
+                    child: Text(
                       'Pecco Bagnaia Berhasil Pertahankan Gelar Juara Dunia MotoGP 2023',
                       style: TextStyle(
                         color: Colors.white,
@@ -157,15 +157,15 @@ class _NewsDetailPageState extends State<NewsDetailPage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       // Info trending dan waktu
-                      Row(
+                      const Row(
                         children: [
-                          const Icon(
+                          Icon(
                             Icons.trending_up,
                             color: Colors.red,
                             size: 16,
                           ),
-                          const SizedBox(width: 4),
-                          const Text(
+                          SizedBox(width: 4),
+                          Text(
                             'Trending',
                             style: TextStyle(
                               color: Colors.red,
@@ -173,17 +173,17 @@ class _NewsDetailPageState extends State<NewsDetailPage> {
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          const SizedBox(width: 8),
-                          const Text('•', style: TextStyle(color: Colors.grey)),
-                          const SizedBox(width: 8),
-                          const Text(
+                          SizedBox(width: 8),
+                          Text('•', style: TextStyle(color: Colors.grey)),
+                          SizedBox(width: 8),
+                          Text(
                             '27 Nov 2023',
                             style: TextStyle(color: Colors.grey, fontSize: 12),
                           ),
-                          const SizedBox(width: 8),
-                          const Text('•', style: TextStyle(color: Colors.grey)),
-                          const SizedBox(width: 8),
-                          const Text(
+                          SizedBox(width: 8),
+                          Text('•', style: TextStyle(color: Colors.grey)),
+                          SizedBox(width: 8),
+                          Text(
                             '6 menit baca',
                             style: TextStyle(color: Colors.grey, fontSize: 12),
                           ),
@@ -195,25 +195,25 @@ class _NewsDetailPageState extends State<NewsDetailPage> {
                       // Info penulis
                       Row(
                         children: [
-                          CircleAvatar(
+                          const CircleAvatar(
                             radius: 20,
                             backgroundImage: NetworkImage(
                               'https://via.placeholder.com/40x40.png?text=BS',
                             ),
                           ),
                           const SizedBox(width: 12),
-                          Expanded(
+                          const Expanded(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                const Text(
+                                Text(
                                   'Budi Santoso',
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 14,
                                   ),
                                 ),
-                                const Text(
+                                Text(
                                   'Jurnalis Olahraga',
                                   style: TextStyle(
                                     color: Colors.grey,
