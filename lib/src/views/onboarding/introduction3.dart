@@ -52,77 +52,98 @@ class Introduction3 extends StatelessWidget {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.fromLTRB(30, 10, 0, 0),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Image.network(
-                    'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/news-app-mq22f9/assets/zkr1nait25m0/Logo.png',
-                    width: 120,
-                    height: 30,
-                    fit: BoxFit.contain,
+        child: GestureDetector(
+          onTap: () => FocusScope.of(context).unfocus(),
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                SizedBox(height: 10.h), // Responsif tinggi
+                Padding(
+                  padding: EdgeInsets.only(left: 30.w), // Responsif lebar
+                  child: Row(
+                    children: [
+                      Image.asset(
+                        'assets/images/Logo.png',
+                        width: 120.w, // Responsif lebar
+                        height: 30.h, // Responsif tinggi
+                        fit: BoxFit.cover,
+                      ),
+                    ],
                   ),
                 ),
-              ),
-              SizedBox(height: screenHeight * 0.05),
-              Image.network(
-                'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/news-app-mq22f9/assets/doy7c0x3ylpr/introduction3.png',
-                width: screenWidth * 0.5,
-                height: screenWidth * 0.5,
-                fit: BoxFit.cover,
-              ),
-              SizedBox(height: screenHeight * 0.02),
-              Text(
-                'Fitur Unggulan Kami', // Judul yang lebih sesuai
-                style: GoogleFonts.inter(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18,
+                SizedBox(height: 40.h), // Responsif tinggi
+                Image.asset(
+                  'assets/images/introduction3.png',
+                  width: 200.w, // Responsif lebar
+                  height: 200.h, // Responsif tinggi
+                  fit: BoxFit.cover,
                 ),
-              ),
-              const SizedBox(height: 25),
-              _featureCard(
-                context: context,
-                icon: Icons.flash_on_outlined,
-                title: 'Berita Real Time',
-                description: 'Update berita terkini secara instan.',
-              ),
-              const SizedBox(height: 15),
-              _featureCard(
-                context: context,
-                icon: Icons.star_outline,
-                title: 'Personalized Feed',
-                description: 'Cerita yang disesuaikan minat Anda.',
-              ),
-              const SizedBox(height: 15),
-              _featureCard(
-                context: context,
-                icon: Icons.language_outlined,
-                title: 'Cakupan Global',
-                description: 'Akses berita dari sumber terpercaya.',
-              ),
-              SizedBox(height: screenHeight * 0.05), // Spasi responsif
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 40),
-                child: SizedBox(
-                  width: double.infinity,
-                  height: 45,
+                SizedBox(height: 10.h), // Responsif tinggi
+                Text(
+                  'Selamat Datang di 9News',
+                  style: GoogleFonts.inter(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18.sp, // Responsif ukuran font
+                  ),
+                ),
+                SizedBox(height: 10.h), // Responsif tinggi
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 40.w,
+                  ), // Responsif lebar padding
+                  child: Text(
+                    'Gerbang pribadi Anda menuju berita terkini dan kisah yang sedang tren dari seluruh dunia, dirancang khusus untuk Anda.',
+                    textAlign: TextAlign.justify,
+                    style: GoogleFonts.inter(
+                      fontSize: 16.sp, // Responsif ukuran font
+                    ),
+                  ),
+                ),
+                SizedBox(height: 25.h), // Responsif tinggi
+                _featureCard(
+                  context: context,
+                  icon: Icons.flash_on_outlined,
+                  title: 'Berita Real Time',
+                  description:
+                      'Tetap update dengan notifikasi\nberita terkini secara instan.',
+                ),
+                SizedBox(height: 15.h), // Responsif tinggi
+                _featureCard(
+                  context: context,
+                  icon: Icons.star,
+                  title: 'Personalized Feed',
+                  description:
+                      'Cerita yang disesuaikan\n berdasarkan minat Anda.',
+                ),
+                SizedBox(height: 15.h), // Responsif tinggi
+                _featureCard(
+                  context: context,
+                  icon: Icons.sort_by_alpha,
+                  title: 'Cakupan Global',
+                  description:
+                      'Akses berita dari sumber\ntepercaya di seluruh dunia.',
+                ),
+                SizedBox(height: 20.h), // Responsif tinggi
+                SizedBox(
+                  width: 285.w, // Responsif lebar
+                  height: 40.h, // Responsif tinggi
                   child: ElevatedButton(
                     onPressed: () {
                       Navigator.pushNamedAndRemoveUntil(
                           context, AppRoutes.login, (route) => false);
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Color.fromARGB(255, 78, 70, 229),
+                      backgroundColor: Theme.of(context).colorScheme.primary,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),
                     ),
                     child: Text(
                       'Buka Segera',
-                      style: GoogleFonts.interTight(color: Colors.white),
+                      style: GoogleFonts.interTight(
+                        color: Colors.white,
+                        fontSize: 18.sp, // Responsif ukuran font
+                      ),
                     ),
                   ),
                 ),

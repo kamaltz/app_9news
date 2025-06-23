@@ -27,33 +27,65 @@ class SplashScreen extends StatelessWidget {
       backgroundColor: Theme.of(context).colorScheme.surface,
       body: SafeArea(
         child: Center(
-          child: SingleChildScrollView( // Memastikan konten bisa di-scroll
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SizedBox(height: screenHeight * 0.15), // Spasi responsif
-                Image.network(
-                  'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/news-app-mq22f9/assets/zkr1nait25m0/Logo.png',
-                  height: 80,
-                  fit: BoxFit.cover,
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              SizedBox(height: 150.h), // Responsif tinggi
+              Image.network(
+                'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/news-app-mq22f9/assets/zkr1nait25m0/Logo.png',
+                height: 80.h, // Responsif tinggi
+                fit: BoxFit.cover,
+              ),
+              SizedBox(height: 24.h), // Responsif tinggi
+              Text(
+                'Selamat Datang',
+                style: GoogleFonts.inter(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 24.sp, // Responsif ukuran font
                 ),
-                const SizedBox(height: 24),
-                Text(
-                  'Selamat Datang',
+              ),
+              SizedBox(height: 12.h), // Responsif tinggi
+              Padding(
+                padding: EdgeInsets.symmetric(
+                  horizontal: 30.w,
+                ), // Responsif lebar
+                child: Text(
+                  'Sumber berita terpercaya dari seluruh dunia secara aktual',
+                  textAlign: TextAlign.center,
                   style: GoogleFonts.inter(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 24,
+                    fontWeight: FontWeight.w500,
+                    fontSize: 16.sp, // Responsif ukuran font
                   ),
                 ),
-                const SizedBox(height: 12),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 40),
+              ),
+              SizedBox(height: 50.h), // Responsif tinggi
+              Image.network(
+                'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/news-app-mq22f9/assets/4pt5hbqcnibz/Dual_Ring%401x-1.5s-200px-200px_(1).gif',
+                height: 50.h, // Responsif tinggi
+                width: 50.w, // Responsif lebar
+              ),
+              SizedBox(height: 50.h), // Responsif tinggi
+              SizedBox(
+                width: 200.w, // Responsif lebar
+                height: 50.h, // Responsif tinggi
+                child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, AppRoutes.introduction1);
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Theme.of(context).colorScheme.primary,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(
+                        10.r,
+                      ), // Responsif radius
+                    ),
+                  ),
                   child: Text(
-                    'Sumber berita terpercaya dari seluruh dunia secara aktual',
-                    textAlign: TextAlign.center,
+                    'Mulai',
                     style: GoogleFonts.inter(
-                      fontWeight: FontWeight.w500,
-                      fontSize: 16,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18.sp, // Responsif ukuran font
                     ),
                   ),
                 ),

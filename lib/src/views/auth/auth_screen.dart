@@ -230,7 +230,7 @@ class _AuthScreenState extends State<AuthScreen>
             onPressed: _handleLogin,
             style: ElevatedButton.styleFrom(
               minimumSize: const Size(double.infinity, 50),
-              backgroundColor: Color.fromARGB(255, 78, 70, 229),
+              backgroundColor: Theme.of(context).primaryColor,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12)),
             ),
@@ -306,7 +306,7 @@ class _AuthScreenState extends State<AuthScreen>
               onPressed: _handleRegister,
               style: ElevatedButton.styleFrom(
                 minimumSize: const Size(double.infinity, 50),
-                backgroundColor:Color.fromARGB(255, 78, 70, 229),
+                backgroundColor: Theme.of(context).primaryColor,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12)),
               ),

@@ -20,100 +20,97 @@ class Introduction2 extends StatelessWidget {
           padding: const EdgeInsets.all(24.0),
           child: Column(
             children: [
-              // Konten Atas
-              Expanded(
-                child: SingleChildScrollView(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SizedBox(height: screenHeight * 0.05),
-                      Image.asset(
-                        'assets/images/introduction2.png',
-                        width: screenWidth * 0.55,
-                        height: screenWidth * 0.55,
-                        fit: BoxFit.contain,
-                      ),
-                      const SizedBox(height: 24),
-                      Text(
-                        'Pilih Minat Anda',
-                        style: GoogleFonts.inter(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20,
-                        ),
-                      ),
-                      const SizedBox(height: 16),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20),
-                        child: Text(
-                          'Personalisasikan pengalaman berita Anda dengan memilih topik yang paling relevan bagi Anda.',
-                          textAlign: TextAlign.center,
-                          style: GoogleFonts.inter(
-                            fontSize: 15,
-                            color: Colors.grey[600],
-                          ),
-                        ),
-                      ),
-                    ],
+              SizedBox(height: 90.h), // Responsif tinggi
+              Image.network(
+                'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/news-app-mq22f9/assets/4awnqdgpe17m/introduction2.png',
+                width: 323.8.w, // Responsif lebar
+                height: 302.27.h, // Responsif tinggi
+                fit: BoxFit.cover,
+              ),
+              SizedBox(height: 30.h), // Responsif tinggi
+              Padding(
+                padding: EdgeInsets.only(right: 30.w), // Responsif lebar
+                child: Text(
+                  'Informasi yang Dapat Diandalkan',
+                  textAlign: TextAlign.start,
+                  style: GoogleFonts.inter(
+                    fontWeight: FontWeight.bold,
+                    color: theme.primaryColor,
+                    fontSize: 20.sp, // Responsif ukuran font
                   ),
                 ),
               ),
-
-              // Bagian Bawah (Tombol)
-              Row(
-                children: [
-                  // Tombol Lewati (Skip)
-                  Expanded(
-                    child: SizedBox(
-                      height: 48,
-                      child: OutlinedButton(
-                        onPressed: () {
-                          Navigator.pushNamed(context, AppRoutes.login);
-                        },
-                        style: OutlinedButton.styleFrom(
-                          foregroundColor: Theme.of(context).colorScheme.primary,
-                          side: BorderSide(
-                            color: Theme.of(context).colorScheme.primary,
-                            width: 1.5,
-                          ),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
+              SizedBox(height: 10.h), // Responsif tinggi
+              Padding(
+                // Gunakan .w untuk padding horizontal
+                padding: EdgeInsets.symmetric(horizontal: 20.w),
+                child: Text(
+                  'Akses berita terverifikasi dari sumber tepercaya. Sistem pengecekan fakta kami memastikan Anda menerima informasi akurat selama peristiwa penting.',
+                  textAlign: TextAlign.justify,
+                  style: GoogleFonts.inter(
+                    fontSize: 16.sp, // Responsif ukuran font
+                  ),
+                ),
+              ),
+              SizedBox(height: 50.h), // Responsif tinggi
+              Padding(
+                padding: EdgeInsets.only(
+                  bottom: 20.h,
+                ), // Responsif tinggi padding
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    OutlinedButton(
+                      onPressed: () {
+                        Navigator.pushNamed(context, AppRoutes.introduction3);
+                      },
+                      style: OutlinedButton.styleFrom(
+                        side: BorderSide(color: theme.primaryColor),
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 16.w, // Responsif lebar padding
+                          vertical: 10.h, // Responsif tinggi padding
                         ),
-                        child: Text(
-                          'Lewati',
-                          style: GoogleFonts.inter(
-                            fontWeight: FontWeight.bold,
-                          ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(
+                            10.r,
+                          ), // Responsif radius
+                        ),
+                      ),
+                      child: Text(
+                        'Lewati',
+                        style: GoogleFonts.interTight(
+                          color: theme.primaryColor,
+                          fontSize: 14.sp, // Responsif ukuran font
                         ),
                       ),
                     ),
-                  ),
-                  const SizedBox(width: 16),
-                  // Tombol Lanjut (Next)
-                  Expanded(
-                    child: SizedBox(
-                      height: 48,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          Navigator.pushNamed(context, AppRoutes.introduction3);
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Color.fromARGB(255, 78, 70, 229),
-                          foregroundColor: Colors.white,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
+                    SizedBox(width: 170.w), // Responsif lebar
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.pushNamed(context, AppRoutes.introduction3);
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: theme.primaryColor,
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 16.w, // Responsif lebar padding
+                          vertical: 10.h, // Responsif tinggi padding
                         ),
-                        child: Text(
-                          'Lanjut',
-                          style: GoogleFonts.inter(
-                            fontWeight: FontWeight.bold,
-                          ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(
+                            10.r,
+                          ), // Responsif radius
+                        ),
+                      ),
+                      child: Text(
+                        'Lanjutkan',
+                        style: GoogleFonts.interTight(
+                          color: Colors.white,
+                          fontSize: 14.sp, // Responsif ukuran font
                         ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ],
           ),
