@@ -3,17 +3,17 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:app_9news/src/configs/app_routes.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart'; // <-- TAMBAHKAN IMPORT INI
 
 class Introduction1 extends StatelessWidget {
   const Introduction1({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final screenHeight = MediaQuery.of(context).size.height;
-    final screenWidth = MediaQuery.of(context).size.width;
+    final theme = Theme.of(context); // Definisikan theme di sini
 
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.surface,
+      backgroundColor: theme.colorScheme.surface,
       body: SafeArea(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -35,7 +35,8 @@ class Introduction1 extends StatelessWidget {
                 textAlign: TextAlign.start,
                 style: GoogleFonts.inter(
                   fontWeight: FontWeight.bold,
-                  color: theme.primaryColor,
+                  color: theme.colorScheme
+                      .primary, // Ganti menjadi theme.colorScheme.primary
                   fontSize: 20.sp, // Responsif ukuran font
                 ),
               ),
@@ -66,7 +67,9 @@ class Introduction1 extends StatelessWidget {
                       Navigator.pushNamed(context, AppRoutes.login);
                     },
                     style: OutlinedButton.styleFrom(
-                      side: BorderSide(color: theme.primaryColor),
+                      side: BorderSide(
+                          color: theme.colorScheme
+                              .primary), // Ganti menjadi theme.colorScheme.primary
                       padding: EdgeInsets.symmetric(
                         horizontal: 16.w, // Responsif lebar padding
                         vertical: 10.h, // Responsif tinggi padding
@@ -81,7 +84,8 @@ class Introduction1 extends StatelessWidget {
                       'Lewati',
                       style: GoogleFonts.interTight(
                         fontWeight: FontWeight.bold,
-                        color: theme.primaryColor,
+                        color: theme.colorScheme
+                            .primary, // Ganti menjadi theme.colorScheme.primary
                         fontSize: 14.sp, // Responsif ukuran font
                       ),
                     ),
@@ -92,7 +96,8 @@ class Introduction1 extends StatelessWidget {
                       Navigator.pushNamed(context, AppRoutes.introduction2);
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: theme.primaryColor,
+                      backgroundColor: theme.colorScheme
+                          .primary, // Ganti menjadi theme.colorScheme.primary
                       padding: EdgeInsets.symmetric(
                         horizontal: 16.w, // Responsif lebar padding
                         vertical: 10.h, // Responsif tinggi padding
@@ -114,10 +119,8 @@ class Introduction1 extends StatelessWidget {
                 ],
               ),
             ),
-            // SizedBox(height: 20.h), // Opsional: padding paling bawah
           ],
         ),
-        // ----------------------------------------------------
       ),
     );
   }

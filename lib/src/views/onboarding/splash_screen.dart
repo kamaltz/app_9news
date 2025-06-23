@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-// Asumsi Anda menggunakan AppRoutes untuk navigasi ke introduction1
 import 'package:app_9news/src/configs/app_routes.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart'; // <-- TAMBAHKAN IMPORT INI
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
-
-  // Anda dapat menyimpan nama rute di AppRoutes agar terpusat
-  // static const String routeName = 'splashscreen';
-  // static const String routePath = '/splashscreen';
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +14,6 @@ class SplashScreen extends StatelessWidget {
     // Menjadwalkan navigasi otomatis setelah beberapa detik
     Future.delayed(const Duration(seconds: 3), () {
       if (context.mounted) {
-        // Menggunakan AppRoutes untuk navigasi yang aman
         Navigator.pushReplacementNamed(context, AppRoutes.introduction1);
       }
     });
@@ -64,7 +59,7 @@ class SplashScreen extends StatelessWidget {
                 height: 50.h, // Responsif tinggi
                 width: 50.w, // Responsif lebar
               ),
-              SizedBox(height: 50.h), // Responsif tinggi
+              const Spacer(), // Gunakan Spacer untuk mendorong ke bawah
               SizedBox(
                 width: 200.w, // Responsif lebar
                 height: 50.h, // Responsif tinggi
@@ -89,15 +84,9 @@ class SplashScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(height: screenHeight * 0.08), // Spasi responsif
-                Image.network(
-                  'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/news-app-mq22f9/assets/4pt5hbqcnibz/Dual_Ring%401x-1.5s-200px-200px_(1).gif',
-                  height: 80,
-                  width: 80,
-                ),
-                SizedBox(height: screenHeight * 0.1), // Spasi bawah
-              ],
-            ),
+              ),
+              SizedBox(height: screenHeight * 0.1), // Spasi bawah
+            ],
           ),
         ),
       ),

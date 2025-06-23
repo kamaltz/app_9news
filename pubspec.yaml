@@ -5,7 +5,7 @@ publish_to: "none"
 version: 1.0.0+1
 
 environment:
-  sdk: ">=3.0.0 <4.0.0" # Disarankan menggunakan rentang versi yang lebih luas
+  sdk: ">=3.0.0 <4.0.0"
 
 dependencies:
   flutter:
@@ -14,7 +14,7 @@ dependencies:
   cupertino_icons: ^1.0.8
   google_fonts: ^6.2.1
   provider: ^6.1.5
-  http: ^1.2.1 # Versi http yang lebih baru seringkali lebih baik
+  http: ^1.2.1
   shared_preferences: ^2.2.3
   flutter_screenutil: ^5.9.3
   smooth_page_indicator: ^1.2.1
@@ -24,13 +24,18 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
-  flutter_lints: ^4.0.0 # Versi lints yang lebih baru
+  flutter_lints: ^4.0.0
+  # 1. Bagian dependensi (tetap di sini)
+  flutter_launcher_icons: "^0.13.1"
+
+# 2. Bagian konfigurasi ikon (diletakkan di sini, di luar dev_dependencies)
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/Logo.png"
 
 flutter:
   uses-material-design: true
 
-  # Bagian aset yang sudah diperbaiki
-  # "assets:" memiliki 2 spasi
-  # "-" memiliki 4 spasi
   assets:
     - assets/images/
