@@ -1,10 +1,13 @@
+// views/homepage.dart (TOMBOL JELAJAHI SUDAH DIPERBARUI)
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:app_9news/src/provider/news_provider.dart';
 import 'package:app_9news/src/models/news_model.dart';
-import 'package:app_9news/src/views/main_wrapper.dart'; // Impor untuk GlobalKey
-import 'package:app_9news/src/widgets/news_cards.dart'; // Impor untuk widget card
+import 'package:app_9news/src/views/main_wrapper.dart';
+import 'package:app_9news/src/widgets/news_cards.dart';
 
 class Homepage extends StatefulWidget {
   const Homepage({super.key});
@@ -13,8 +16,8 @@ class Homepage extends StatefulWidget {
 }
 
 class _HomepageState extends State<Homepage> {
-  // Tambahkan controller untuk text field pencarian
   final _searchController = TextEditingController();
+  final Color primaryColor = const Color.fromARGB(255, 78, 70, 234);
 
   @override
   void initState() {
@@ -33,46 +36,34 @@ class _HomepageState extends State<Homepage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[100],
+      backgroundColor: Colors.white,
       body: Consumer<NewsProvider>(
         builder: (context, provider, child) {
           if (provider.isHomepageLoading && provider.latestArticles.isEmpty) {
-            return const Center(child: CircularProgressIndicator());
+            return Center(child: CircularProgressIndicator(color: primaryColor));
           }
+
           return RefreshIndicator(
             onRefresh: () => provider.fetchHomepageData(),
-            child: ListView(
-              padding: const EdgeInsets.symmetric(vertical: 16.0),
-              children: [
-                _buildSearchField(context),
-                const SizedBox(height: 24),
-                if (provider.trendingArticles.isNotEmpty)
-                  _buildTrendingCarousel(context, provider.trendingArticles),
-                const SizedBox(height: 24),
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16.0),
-                  child: Text("Berita Terbaru",
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+            color: primaryColor,
+            child: CustomScrollView(
+              slivers: [
+                _buildSliverAppBar(),
+                SliverList(
+                  delegate: SliverChildListDelegate([
+                    const SizedBox(height: 24),
+                    if (provider.trendingArticles.isNotEmpty)
+                      _buildTrendingCarousel(context, provider.trendingArticles),
+                    const SizedBox(height: 24),
+                    _buildSectionHeader("Berita Terbaru"),
+                    const SizedBox(height: 16),
+                    _buildLatestNewsList(provider.latestArticles),
+                    if (provider.latestArticles.isNotEmpty)
+                      // Ini adalah tombol yang kita ubah gayanya
+                      _buildViewAllButton(context),
+                    const SizedBox(height: 20),
+                  ]),
                 ),
-                const SizedBox(height: 16),
-                _buildLatestNewsList(provider.latestArticles),
-                if (provider.latestArticles.isNotEmpty)
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 8.0),
-                    child: OutlinedButton(
-                      // --- PERBAIKAN DI SINI ---
-                      // Memanggil fungsi goToTab dari MainWrapper melalui GlobalKey
-                      onPressed: () => mainWrapperKey.currentState?.goToTab(1),
-                      style: OutlinedButton.styleFrom(
-                        minimumSize: const Size(double.infinity, 45),
-                        foregroundColor: Theme.of(context).primaryColor,
-                        side: BorderSide(color: Theme.of(context).primaryColor),
-                      ),
-                      child:
-                          const Text("Lihat Semua Berita di Halaman Jelajah"),
-                    ),
-                  )
               ],
             ),
           );
@@ -80,70 +71,132 @@ class _HomepageState extends State<Homepage> {
       ),
     );
   }
+  
+  SliverAppBar _buildSliverAppBar() {
+    return SliverAppBar(
+      backgroundColor: Colors.white,
+      pinned: true,
+      floating: true,
+      elevation: 0.5,
+      bottom: PreferredSize(
+        preferredSize: const Size.fromHeight(70.0),
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+          child: _buildSearchField(context),
+        ),
+      ),
+    );
+  }
 
-  // --- PERBAIKAN DI SINI: TextField menjadi fungsional ---
   Widget _buildSearchField(BuildContext context) {
     final newsProvider = Provider.of<NewsProvider>(context, listen: false);
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+    return Container(
+      decoration: BoxDecoration(
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.1),
+            blurRadius: 15,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
       child: TextField(
         controller: _searchController,
         decoration: InputDecoration(
-          hintText: 'Cari berita atau topik...',
-          prefixIcon: const Icon(Icons.search),
+          hintText: 'Cari topik, berita, atau penulis...',
+          hintStyle: GoogleFonts.inter(color: Colors.grey[500]),
+          prefixIcon: const Icon(Icons.search, color: Colors.grey),
           filled: true,
-          fillColor: Colors.white,
+          fillColor: Colors.grey[50],
           border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-              borderSide: BorderSide.none),
+            borderRadius: BorderRadius.circular(12),
+            borderSide: BorderSide.none,
+          ),
         ),
-        // Aksi saat pengguna menekan "enter" di keyboard
         onSubmitted: (query) {
           if (query.trim().isNotEmpty) {
-            // 1. Beri tahu provider untuk melakukan pencarian
             newsProvider.fetchExploreArticles(query: query);
-            // 2. Kosongkan field pencarian di homepage
             _searchController.clear();
-            // 3. Pindah ke tab Jelajah untuk melihat hasilnya
             mainWrapperKey.currentState?.goToTab(1);
           }
         },
       ),
     );
   }
+  
+  Widget _buildSectionHeader(String title) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      child: Text(
+        title,
+        style: GoogleFonts.inter(
+          fontSize: 20,
+          fontWeight: FontWeight.bold,
+          color: Colors.black87,
+        ),
+      ),
+    );
+  }
 
-  // Widget-widget lain tidak berubah
-  Widget _buildTrendingCarousel(
-      BuildContext context, List<NewsArticle> articles) {
+  Widget _buildTrendingCarousel(BuildContext context, List<NewsArticle> articles) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16),
-          child: Text("Trending",
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-        ),
+        _buildSectionHeader("Lagi Trending"),
         const SizedBox(height: 16),
         CarouselSlider.builder(
           itemCount: articles.length,
-          itemBuilder: (context, index, realIndex) =>
-              TrendingNewsCard(article: articles[index]),
+          itemBuilder: (context, index, realIndex) => TrendingNewsCard(article: articles[index]),
           options: CarouselOptions(
-              height: 220,
-              autoPlay: true,
-              enlargeCenterPage: true,
-              viewportFraction: 0.85),
+            height: 230,
+            autoPlay: true,
+            enlargeCenterPage: true,
+            viewportFraction: 0.85,
+            autoPlayInterval: const Duration(seconds: 4),
+          ),
         ),
       ],
     );
   }
 
-  Widget _buildLatestNewsList(List<NewsArticle> articles) => ListView.builder(
-        itemCount: articles.length,
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-        itemBuilder: (context, index) =>
-            LatestNewsCard(article: articles[index]),
-      );
-}
+  Widget _buildLatestNewsList(List<NewsArticle> articles) {
+    return ListView.separated(
+      itemCount: articles.length,
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      separatorBuilder: (context, index) => const Divider(indent: 16, endIndent: 16),
+      itemBuilder: (context, index) => LatestNewsCard(article: articles[index]),
+    );
+  }
+  
+  // --- PERUBAHAN DI SINI: Gaya Tombol Menuju Halaman Jelajahi ---
+  Widget _buildViewAllButton(BuildContext context) {
+    return Padding(
+      // Atur padding agar ada jarak yang pas
+      padding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
+      child: OutlinedButton.icon(
+        icon: const Icon(Icons.explore_outlined),
+        label: Text(
+          "Jelajahi Semua Berita di exploler",
+          style: GoogleFonts.inter(
+            fontWeight: FontWeight.normal,
+            fontSize: 15, // Sedikit sesuaikan ukuran font
+          ),
+        ),
+        onPressed: () => mainWrapperKey.currentState?.goToTab(1),
+        style: OutlinedButton.styleFrom(
+          // Warna teks dan ikon adalah warna primer
+          foregroundColor: primaryColor,
+          minimumSize: const Size(double.infinity, 52),
+          // Bentuk tombol dengan sudut membulat
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+          // Garis tepi tombol menggunakan warna primer
+          side: BorderSide(color: primaryColor, width: 1.5),
+        ),
+      ),
+    );
+  }
+} 

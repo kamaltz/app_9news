@@ -151,9 +151,9 @@ class _AuthScreenState extends State<AuthScreen>
                           children: [
                             TabBar(
                               controller: _tabController,
-                              labelColor: theme.primaryColor,
+                              labelColor: Color.fromARGB(255, 78, 70, 229),
                               unselectedLabelColor: Colors.grey,
-                              indicatorColor: theme.primaryColor,
+                              indicatorColor: Color.fromARGB(255, 78, 70, 229),
                               indicatorWeight: 3,
                               labelStyle: GoogleFonts.inter(
                                   fontWeight: FontWeight.bold),
@@ -230,7 +230,7 @@ class _AuthScreenState extends State<AuthScreen>
             onPressed: _handleLogin,
             style: ElevatedButton.styleFrom(
               minimumSize: const Size(double.infinity, 50),
-              backgroundColor: Theme.of(context).primaryColor,
+              backgroundColor: Color.fromARGB(255, 78, 70, 229),
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12)),
             ),
@@ -306,7 +306,7 @@ class _AuthScreenState extends State<AuthScreen>
               onPressed: _handleRegister,
               style: ElevatedButton.styleFrom(
                 minimumSize: const Size(double.infinity, 50),
-                backgroundColor: Theme.of(context).primaryColor,
+                backgroundColor:Color.fromARGB(255, 78, 70, 229),
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12)),
               ),

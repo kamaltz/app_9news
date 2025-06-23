@@ -63,7 +63,7 @@ class _MainWrapperState extends State<MainWrapper> {
         actions: [
           if (_selectedIndex == 0) // Hanya tampilkan di tab Beranda
             IconButton(
-              icon: const Icon(Icons.refresh, color: Colors.black54),
+              icon: const Icon(Icons.refresh, color: Color.fromARGB(255, 78, 70, 229),),
               onPressed: () {
                 Provider.of<NewsProvider>(context, listen: false)
                     .fetchHomepageData();
@@ -101,7 +101,7 @@ class _MainWrapperState extends State<MainWrapper> {
               label: 'Profil'),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: Theme.of(context).primaryColor,
+        selectedItemColor: Color.fromARGB(255, 78, 70, 229),
         unselectedItemColor: Colors.grey,
         showUnselectedLabels: true,
         type: BottomNavigationBarType.fixed,

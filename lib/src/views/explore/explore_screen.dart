@@ -75,7 +75,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                       },
                       backgroundColor: Colors.white,
                       selectedColor:
-                          Theme.of(context).primaryColor.withOpacity(0.8),
+                          Color.fromARGB(255, 78, 70, 234), 
                       labelStyle: TextStyle(
                           color: provider.selectedCategory == category
                               ? Colors.white
