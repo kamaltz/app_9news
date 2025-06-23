@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <!-- Izinkan koneksi terenkripsi (HTTPS) ke domain spesifik -->
+    <domain-config cleartextTrafficPermitted="false">
+        <domain includeSubdomains="true">rest-api-berita.vercel.app</domain>
+    </domain-config>
+    
+    <!-- Fallback untuk konfigurasi jaringan default Android -->
+    <base-config cleartextTrafficPermitted="false" />
+</network-security-config>

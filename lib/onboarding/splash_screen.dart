@@ -1,12 +1,12 @@
+// lib/onboarding/splash_screen.dart
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:app_9news/src/views/onboarding/introduction1.dart';
+// Import AppRoutes untuk menggunakan nama rute yang benar
+import 'package:app_9news/src/configs/app_routes.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
-
-  static const String routeName = 'splashscreen';
-  static const String routePath = '/splashscreen';
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +16,9 @@ class SplashScreen extends StatelessWidget {
         child: Center(
           child: InkWell(
             onTap: () {
-              Navigator.pushNamed(context, Introduction1.routeName);
+              // --- PERBAIKAN DI SINI ---
+              // Ganti Introduction1.routeName menjadi AppRoutes.introduction1
+              Navigator.pushNamed(context, AppRoutes.introduction1);
             },
             child: Column(
               mainAxisSize: MainAxisSize.max,
