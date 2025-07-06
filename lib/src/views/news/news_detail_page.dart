@@ -51,25 +51,48 @@ class _NewsDetailPageState extends State<NewsDetailPage> {
   }
 
   // Fungsi yang dipanggil saat tombol bookmark ditekan
-  void _onBookmarkPressed() {
-    final newsProvider = Provider.of<NewsProvider>(context, listen: false);
-    // Panggil fungsi toggleBookmark dari provider
-    newsProvider.toggleBookmark(widget.newsId);
-
-    // Update UI secara instan
-    setState(() {
-      _isBookmarked = !_isBookmarked;
-    });
-
-    // Tampilkan notifikasi
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(_isBookmarked
-            ? "Artikel disimpan ke bookmark"
-            : "Bookmark dihapus"),
-        duration: const Duration(seconds: 2),
-      ),
-    );
+  void _onBookmarkPressed() async {
+    try {
+      final newsProvider = Provider.of<NewsProvider>(context, listen: false);
+      // Panggil fungsi toggleBookmark dari provider dan tunggu hasilnya
+      final success = await newsProvider.toggleBookmark(widget.newsId);
+      
+      if (success && mounted) {
+        // Update UI hanya jika operasi berhasil
+        setState(() {
+          _isBookmarked = !_isBookmarked;
+        });
+        
+        // Tampilkan notifikasi
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(_isBookmarked
+                ? "Artikel disimpan ke bookmark"
+                : "Bookmark dihapus"),
+            duration: const Duration(seconds: 2),
+          ),
+        );
+      } else if (mounted) {
+        // Tampilkan pesan error jika gagal
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("Gagal mengubah status bookmark. Pastikan Anda sudah login."),
+            duration: Duration(seconds: 2),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text("Error: ${e.toString()}"),
+            duration: const Duration(seconds: 2),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    }
   }
 
   @override

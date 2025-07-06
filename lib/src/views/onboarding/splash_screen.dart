@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:app_9news/src/configs/app_routes.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart'; // <-- TAMBAHKAN IMPORT INI
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:app_9news/src/utils/preferences_util.dart'; // Import utility untuk preferences
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
@@ -12,9 +13,19 @@ class SplashScreen extends StatelessWidget {
     final screenHeight = MediaQuery.of(context).size.height;
 
     // Menjadwalkan navigasi otomatis setelah beberapa detik
-    Future.delayed(const Duration(seconds: 3), () {
+    Future.delayed(const Duration(seconds: 3), () async {
       if (context.mounted) {
-        Navigator.pushReplacementNamed(context, AppRoutes.introduction1);
+        // Cek apakah pengguna sudah pernah melihat onboarding
+        final hasSeenOnboarding = await PreferencesUtil.hasSeenOnboarding();
+        if (context.mounted) {
+          if (hasSeenOnboarding) {
+            // Jika sudah pernah melihat onboarding, langsung ke halaman home
+            Navigator.pushReplacementNamed(context, AppRoutes.home);
+          } else {
+            // Jika belum pernah melihat onboarding, tampilkan onboarding
+            Navigator.pushReplacementNamed(context, AppRoutes.introduction1);
+          }
+        }
       }
     });
 
@@ -64,8 +75,16 @@ class SplashScreen extends StatelessWidget {
                 width: 200.w, // Responsif lebar
                 height: 50.h, // Responsif tinggi
                 child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, AppRoutes.introduction1);
+                  onPressed: () async {
+                    // Cek apakah pengguna sudah pernah melihat onboarding
+                    final hasSeenOnboarding = await PreferencesUtil.hasSeenOnboarding();
+                    if (context.mounted) {
+                      if (hasSeenOnboarding) {
+                        Navigator.pushReplacementNamed(context, AppRoutes.home);
+                      } else {
+                        Navigator.pushReplacementNamed(context, AppRoutes.introduction1);
+                      }
+                    }
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Theme.of(context).colorScheme.primary,

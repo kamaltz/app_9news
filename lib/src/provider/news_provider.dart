@@ -99,18 +99,27 @@ class NewsProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> toggleBookmark(String articleId) async {
+  Future<bool> toggleBookmark(String articleId) async {
     final isBookmarked = _bookmarkedArticles.any((a) => a.id == articleId);
     try {
+      bool success = false;
       if (isBookmarked) {
-        await _newsService.removeBookmark(articleId);
-        _bookmarkedArticles.removeWhere((a) => a.id == articleId);
+        success = await _newsService.removeBookmark(articleId);
+        if (success) {
+          _bookmarkedArticles.removeWhere((a) => a.id == articleId);
+        }
       } else {
-        await _newsService.addBookmark(articleId);
-        await fetchBookmarkedArticles();
+        success = await _newsService.addBookmark(articleId);
+        if (success) {
+          await fetchBookmarkedArticles();
+        }
       }
       notifyListeners();
-    } catch (e) {/* handle error */}
+      return success;
+    } catch (e) {
+      print('Error toggling bookmark: ${e.toString()}');
+      return false;
+    }
   }
 
   Future<void> fetchUserArticles() async {

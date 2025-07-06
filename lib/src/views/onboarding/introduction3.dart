@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:app_9news/src/configs/app_routes.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart'; // <-- TAMBAHKAN IMPORT INI
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:app_9news/src/utils/preferences_util.dart'; // Import utility untuk preferences
 
 class Introduction3 extends StatelessWidget {
   const Introduction3({super.key});
@@ -125,9 +126,13 @@ class Introduction3 extends StatelessWidget {
                   width: 285.w,
                   height: 40.h,
                   child: ElevatedButton(
-                    onPressed: () {
-                      Navigator.pushNamedAndRemoveUntil(
-                          context, AppRoutes.login, (route) => false);
+                    onPressed: () async {
+                      // Tandai bahwa pengguna sudah melihat onboarding
+                      await PreferencesUtil.markOnboardingAsSeen();
+                      if (context.mounted) {
+                        Navigator.pushNamedAndRemoveUntil(
+                            context, AppRoutes.login, (route) => false);
+                      }
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Theme.of(context).colorScheme.primary,

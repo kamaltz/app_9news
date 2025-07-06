@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:app_9news/src/provider/auth_provider.dart';
 import 'package:app_9news/src/configs/app_routes.dart';
+import 'package:app_9news/src/utils/network_util.dart';
 
 class AuthScreen extends StatefulWidget {
   const AuthScreen({super.key});
@@ -56,6 +57,19 @@ class _AuthScreenState extends State<AuthScreen>
   Future<void> _handleLogin() async {
     FocusScope.of(context).unfocus();
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
+    
+    // Check internet connection first
+    bool hasInternet = await NetworkUtil.hasInternetConnection();
+    if (!hasInternet) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Tidak ada koneksi internet. Silakan periksa koneksi Anda.'),
+          backgroundColor: Colors.red,
+        ),
+      );
+      return;
+    }
 
     await authProvider.login(
       _loginEmailController.text.trim(),
@@ -81,14 +95,44 @@ class _AuthScreenState extends State<AuthScreen>
   Future<void> _handleRegister() async {
     FocusScope.of(context).unfocus();
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
+    
+    // Check internet connection first
+    bool hasInternet = await NetworkUtil.hasInternetConnection();
+    if (!hasInternet) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Tidak ada koneksi internet. Silakan periksa koneksi Anda.'),
+          backgroundColor: Colors.red,
+        ),
+      );
+      return;
+    }
+
+    // Validate required fields
+    if (_registerNameController.text.trim().isEmpty ||
+        _registerEmailController.text.trim().isEmpty ||
+        _registerPasswordController.text.trim().isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Nama, Email, dan Password harus diisi'),
+          backgroundColor: Colors.red,
+        ),
+      );
+      return;
+    }
 
     // --- PERBAIKAN DI SINI: Sesuaikan dengan semua field yang dibutuhkan API ---
     final userData = {
       'name': _registerNameController.text.trim(),
       'email': _registerEmailController.text.trim(),
       'password': _registerPasswordController.text.trim(),
-      'title': _registerTitleController.text.trim(), // Jabatan dari UI
-      'avatar': _registerAvatarController.text.trim(), // URL Avatar dari UI
+      'title': _registerTitleController.text.trim().isNotEmpty
+          ? _registerTitleController.text.trim()
+          : 'User', // Default value if empty
+      'avatar': _registerAvatarController.text.trim().isNotEmpty
+          ? _registerAvatarController.text.trim()
+          : 'https://ui-avatars.com/api/?name=${_registerNameController.text.trim()}', // Default avatar
     };
 
     bool success = await authProvider.register(userData);

@@ -72,6 +72,7 @@ class AuthProvider extends ChangeNotifier {
       final authModel = await _authService.login(email, password);
       await _saveUserSession(authModel.data.token, authModel.data.user);
     } catch (e) {
+      print('Login error in provider: ${e.toString()}');
       _errorMessage = e.toString().replaceFirst("Exception: ", "");
     } finally {
       _setLoading(false);
@@ -87,6 +88,7 @@ class AuthProvider extends ChangeNotifier {
       await _saveUserSession(authModel.data.token, authModel.data.user);
       return true;
     } catch (e) {
+      print('Register error in provider: ${e.toString()}');
       _errorMessage = e.toString().replaceFirst("Exception: ", "");
       return false;
     } finally {

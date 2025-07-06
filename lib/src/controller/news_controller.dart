@@ -4,7 +4,7 @@ import 'package:app_9news/src/models/news_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class NewsService {
-  final String baseApiUrl = 'https://rest-api-berita.vercel.app/api/v1';
+  final String baseApiUrl = 'https://kamaltz.fun/api/v1';
 
   Future<String?> _getToken() async {
     final prefs = await SharedPreferences.getInstance();
@@ -110,12 +110,10 @@ class NewsService {
     }
 
     try {
-      final response = await http
-          .get(
-            Uri.parse('$baseApiUrl/news/$articleId/bookmark'),
-            headers: {'Authorization': 'Bearer $token'},
-          )
-          .timeout(const Duration(seconds: 15));
+      final response = await http.get(
+        Uri.parse('$baseApiUrl/news/$articleId/bookmark'),
+        headers: {'Authorization': 'Bearer $token'},
+      ).timeout(const Duration(seconds: 15));
 
       if (response.statusCode == 200) {
         final jsonData = json.decode(utf8.decode(response.bodyBytes));
@@ -143,12 +141,10 @@ class NewsService {
     }
 
     try {
-      final response = await http
-          .post(
-            Uri.parse('$baseApiUrl/news/$articleId/bookmark'),
-            headers: {'Authorization': 'Bearer $token'},
-          )
-          .timeout(const Duration(seconds: 15));
+      final response = await http.post(
+        Uri.parse('$baseApiUrl/news/$articleId/bookmark'),
+        headers: {'Authorization': 'Bearer $token'},
+      ).timeout(const Duration(seconds: 15));
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         final jsonData = json.decode(utf8.decode(response.bodyBytes));
@@ -174,12 +170,10 @@ class NewsService {
     }
 
     try {
-      final response = await http
-          .delete(
-            Uri.parse('$baseApiUrl/news/$articleId/bookmark'),
-            headers: {'Authorization': 'Bearer $token'},
-          )
-          .timeout(const Duration(seconds: 15));
+      final response = await http.delete(
+        Uri.parse('$baseApiUrl/news/$articleId/bookmark'),
+        headers: {'Authorization': 'Bearer $token'},
+      ).timeout(const Duration(seconds: 15));
 
       if (response.statusCode == 200) {
         final jsonData = json.decode(utf8.decode(response.bodyBytes));
@@ -201,12 +195,10 @@ class NewsService {
     }
 
     try {
-      final response = await http
-          .get(
-            Uri.parse('$baseApiUrl/news/bookmarks/list'),
-            headers: {'Authorization': 'Bearer $token'},
-          )
-          .timeout(const Duration(seconds: 15));
+      final response = await http.get(
+        Uri.parse('$baseApiUrl/news/bookmarks/list'),
+        headers: {'Authorization': 'Bearer $token'},
+      ).timeout(const Duration(seconds: 15));
 
       if (response.statusCode == 200) {
         final jsonData = json.decode(utf8.decode(response.bodyBytes));
@@ -238,12 +230,10 @@ class NewsService {
     }
 
     try {
-      final response = await http
-          .get(
-            Uri.parse('$baseApiUrl/news/user/me'),
-            headers: {'Authorization': 'Bearer $token'},
-          )
-          .timeout(const Duration(seconds: 15));
+      final response = await http.get(
+        Uri.parse('$baseApiUrl/news/user/me'),
+        headers: {'Authorization': 'Bearer $token'},
+      ).timeout(const Duration(seconds: 15));
 
       if (response.statusCode == 200) {
         return NewsResponse.fromJson(
@@ -345,12 +335,10 @@ class NewsService {
     }
 
     try {
-      final response = await http
-          .delete(
-            Uri.parse('$baseApiUrl/news/$articleId'),
-            headers: {'Authorization': 'Bearer $token'},
-          )
-          .timeout(const Duration(seconds: 15));
+      final response = await http.delete(
+        Uri.parse('$baseApiUrl/news/$articleId'),
+        headers: {'Authorization': 'Bearer $token'},
+      ).timeout(const Duration(seconds: 15));
 
       if (response.statusCode == 200) {
         final jsonData = json.decode(utf8.decode(response.bodyBytes));

@@ -1,12 +1,22 @@
 // lib/src/controller/news_service.dart
 
 import 'dart:convert';
+import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:app_9news/src/models/news_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter/foundation.dart';
+import 'package:app_9news/src/controller/auth_service.dart';
 
 class NewsService {
-  final String _baseUrl = 'https://rest-api-berita.vercel.app/api/v1';
+  final String _baseUrl = 'https://kamaltz.fun/api/v1';
+  
+  NewsService() {
+    // Untuk development, bypass certificate verification
+    if (kDebugMode) {
+      HttpOverrides.global = MyHttpOverrides();
+    }
+  }
 
   // Helper untuk mendapatkan token
   Future<String?> _getToken() async {
@@ -17,7 +27,10 @@ class NewsService {
   // Helper untuk membuat header autentikasi
   Future<Map<String, String>> _getAuthHeaders() async {
     final token = await _getToken();
-    if (token == null) throw Exception('Pengguna belum login');
+    if (token == null) {
+      print('Error: Token tidak ditemukan. Pengguna belum login.');
+      throw Exception('Pengguna belum login');
+    }
     return {
       'Authorization': 'Bearer $token',
       'Content-Type': 'application/json',
@@ -42,7 +55,12 @@ class NewsService {
       if (isTrending != null) 'isTrending': isTrending.toString(),
     });
 
-    final response = await http.get(uri);
+    final response = await http.get(uri).timeout(
+      const Duration(seconds: 15),
+      onTimeout: () {
+        throw Exception('Koneksi timeout. Periksa koneksi internet Anda.');
+      },
+    );
 
     if (response.statusCode == 200) {
       final List<dynamic> articlesJson =
@@ -87,30 +105,45 @@ class NewsService {
 
   // CRUD Bookmark
   Future<bool> addBookmark(String articleId) async {
-    final headers = await _getAuthHeaders();
-    final response = await http.post(
-        Uri.parse('$_baseUrl/news/$articleId/bookmark'),
-        headers: headers);
-    return response.statusCode == 200 || response.statusCode == 201;
+    try {
+      final headers = await _getAuthHeaders();
+      final response = await http.post(
+          Uri.parse('$_baseUrl/news/$articleId/bookmark'),
+          headers: headers);
+      return response.statusCode == 200 || response.statusCode == 201;
+    } catch (e) {
+      print('Error adding bookmark: ${e.toString()}');
+      return false;
+    }
   }
 
   Future<bool> removeBookmark(String articleId) async {
-    final headers = await _getAuthHeaders();
-    final response = await http.delete(
-        Uri.parse('$_baseUrl/news/$articleId/bookmark'),
-        headers: headers);
-    return response.statusCode == 200;
+    try {
+      final headers = await _getAuthHeaders();
+      final response = await http.delete(
+          Uri.parse('$_baseUrl/news/$articleId/bookmark'),
+          headers: headers);
+      return response.statusCode == 200;
+    } catch (e) {
+      print('Error removing bookmark: ${e.toString()}');
+      return false;
+    }
   }
 
   Future<bool> checkBookmarkStatus(String articleId) async {
-    final headers = await _getAuthHeaders();
-    final response = await http
-        .get(Uri.parse('$_baseUrl/news/$articleId/bookmark'), headers: headers);
-    if (response.statusCode == 200) {
-      return json.decode(utf8.decode(response.bodyBytes))['data']['isSaved'] ??
-          false;
+    try {
+      final headers = await _getAuthHeaders();
+      final response = await http
+          .get(Uri.parse('$_baseUrl/news/$articleId/bookmark'), headers: headers);
+      if (response.statusCode == 200) {
+        return json.decode(utf8.decode(response.bodyBytes))['data']['isSaved'] ??
+            false;
+      }
+      return false;
+    } catch (e) {
+      print('Error checking bookmark status: ${e.toString()}');
+      return false;
     }
-    return false;
   }
 
   // CRUD Artikel Pengguna
